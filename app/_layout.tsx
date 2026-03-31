@@ -1,24 +1,52 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { authClient } from '@/lib/auth-client'
+import { ConvexBetterAuthProvider } from '@convex-dev/better-auth/react'
+import { ConvexProvider, ConvexReactClient, useConvexAuth } from 'convex/react'
+import { Stack, useRouter, useSegments } from 'expo-router'
+import { StrictMode, useEffect } from 'react'
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
+const convex = new ConvexReactClient(
+  process.env.EXPO_PUBLIC_CONVEX_URL as string,
+  {
+    expectAuth: true,
+    unsavedChangesWarning: false,
+  },
+)
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+function InitialLayout() {
+  const { isAuthenticated, isLoading } = useConvexAuth()
+  const segments = useSegments()
+  const router = useRouter()
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  useEffect(() => {
+    if (isLoading) return
+
+    const inAuthGroup = segments[0] === '(authenticated)'
+
+    if (isAuthenticated && !inAuthGroup) {
+      // Redirect authenticated users to the home page
+      router.replace('/(authenticated)')
+    } else if (!isAuthenticated && inAuthGroup) {
+      // Redirect unauthenticated users to the login/public page
+      router.replace('/(public)')
+    }
+  }, [isAuthenticated, isLoading, segments])
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(public)" />
+      <Stack.Screen name="(authenticated)" />
+    </Stack>
+  )
+}
+
+export default function AuthLayout() {
+  return (
+    <StrictMode>
+      <ConvexProvider client={convex}>
+        <ConvexBetterAuthProvider client={convex} authClient={authClient}>
+          <InitialLayout />
+        </ConvexBetterAuthProvider>
+      </ConvexProvider>
+    </StrictMode>
+  )
 }
