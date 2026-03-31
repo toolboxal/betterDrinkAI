@@ -33,8 +33,12 @@ function InitialLayout() {
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(public)" />
-      <Stack.Screen name="(authenticated)" />
+      <Stack.Protected guard={!isAuthenticated}>
+        <Stack.Screen name="(public)" />
+      </Stack.Protected>
+      <Stack.Protected guard={isAuthenticated}>
+        <Stack.Screen name="(authenticated)" />
+      </Stack.Protected>
     </Stack>
   )
 }
