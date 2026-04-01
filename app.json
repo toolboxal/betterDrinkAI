@@ -43,7 +43,42 @@
           }
         }
       ],
-      "expo-secure-store"
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera to take photos of your drinks."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos to upload pictures of your drinks."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photo library so you can select and track previous drink photos.",
+          "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos of your tracked drinks directly to your camera roll.",
+          "isAccessMediaLocationEnabled": true,
+          "granularPermissions": [
+            "audio",
+            "photo"
+          ]
+        }
+      ],
+      "expo-font",
+      "expo-web-browser",
+      "expo-secure-store",
+      [
+        "apple-health",
+        {
+          "healthSharePermission": "Allow $(PRODUCT_NAME) to securely read your health data to personalize your hydration goals and analysis.",
+          "healthUpdatePermission": "Allow $(PRODUCT_NAME) to automatically log your tracked drinks directly into Apple Health.",
+          "backgroundDelivery": false
+        }
+      ],
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true,

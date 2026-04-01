@@ -47,7 +47,7 @@ const OauthModal = ({
       return
     }
 
-    // Default web-based OAuth for Google or Android-Apple
+    // Default web-based OAuth for Google
     const { error } = await authClient.signIn.social({
       provider: typeofOauth,
       callbackURL: 'betterdrinkai://(authenticated)',

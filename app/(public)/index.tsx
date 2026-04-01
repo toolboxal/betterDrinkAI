@@ -28,7 +28,7 @@ const LandingPage = () => {
           paddingVertical: 35,
         }}
       >
-        <Text style={styles.headerTitle}>{`DRINK \nBETTER`}</Text>
+        <Text style={styles.headerTitle}>{`BETTER DRINK AI`}</Text>
         <View
           style={{
             paddingLeft: 10,
@@ -89,10 +89,7 @@ const LandingPage = () => {
           >
             <Pressable>
               <Text
-                style={[
-                  styles.footerTxt,
-                  { fontFamily: 'Raleway_600SemiBold' },
-                ]}
+                style={[styles.footerTxt, { fontFamily: 'Inter_600SemiBold' }]}
               >
                 Terms of Service
               </Text>
@@ -100,10 +97,7 @@ const LandingPage = () => {
             <Text style={styles.footerTxt}>and</Text>
             <Pressable>
               <Text
-                style={[
-                  styles.footerTxt,
-                  { fontFamily: 'Raleway_600SemiBold' },
-                ]}
+                style={[styles.footerTxt, { fontFamily: 'Inter_600SemiBold' }]}
               >
                 Privacy Policy
               </Text>
@@ -131,12 +125,12 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: 20,
-    fontFamily: 'Raleway_500Medium',
+    fontFamily: 'Inter_500Medium',
     color: 'white',
   },
   headerTitle: {
-    fontSize: 80,
-    fontFamily: 'Raleway_300Light',
+    fontSize: 70,
+    fontFamily: 'Inter_400Regular',
     textAlign: 'left',
     color: 'black',
     letterSpacing: -2,
@@ -144,13 +138,13 @@ const styles = StyleSheet.create({
   },
   headerSubTxt: {
     fontSize: 18,
-    fontFamily: 'Raleway_300Light',
+    fontFamily: 'Inter_300Light',
     textAlign: 'left',
     color: gray[500],
   },
   subTxt: {
     fontSize: 20,
-    fontFamily: 'Raleway_300Light',
+    fontFamily: 'Inter_300Light',
     textAlign: 'center',
     color: gray[500],
     marginVertical: 10,
@@ -158,7 +152,7 @@ const styles = StyleSheet.create({
   },
   footerTxt: {
     fontSize: 13,
-    fontFamily: 'Raleway_400Regular',
+    fontFamily: 'Inter_400Regular',
     textAlign: 'center',
     color: gray[500],
   },

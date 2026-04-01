@@ -4,66 +4,67 @@ import { ConvexProvider, ConvexReactClient, useConvexAuth } from 'convex/react'
 import { Stack, useRouter, useSegments } from 'expo-router'
 import { StrictMode, useEffect } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
+import Purchases, { LOG_LEVEL } from 'react-native-purchases'
 import {
-  Raleway_100Thin,
-  Raleway_100Thin_Italic,
-  Raleway_200ExtraLight,
-  Raleway_200ExtraLight_Italic,
-  Raleway_300Light,
-  Raleway_300Light_Italic,
-  Raleway_400Regular,
-  Raleway_400Regular_Italic,
-  Raleway_500Medium,
-  Raleway_500Medium_Italic,
-  Raleway_600SemiBold,
-  Raleway_600SemiBold_Italic,
-  Raleway_700Bold,
-  Raleway_700Bold_Italic,
-  Raleway_800ExtraBold,
-  Raleway_800ExtraBold_Italic,
-  Raleway_900Black,
-  Raleway_900Black_Italic,
+  Inter_100Thin,
+  Inter_200ExtraLight,
+  Inter_300Light,
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_800ExtraBold,
+  Inter_900Black,
   useFonts,
-} from '@expo-google-fonts/raleway'
+} from '@expo-google-fonts/inter'
+import {
+  Merriweather_300Light,
+  Merriweather_300Light_Italic,
+  Merriweather_400Regular,
+  Merriweather_400Regular_Italic,
+  Merriweather_700Bold,
+  Merriweather_700Bold_Italic,
+  Merriweather_900Black,
+  Merriweather_900Black_Italic,
+} from '@expo-google-fonts/merriweather'
+import { Platform } from 'react-native'
 
 SplashScreen.preventAutoHideAsync()
 
 const convex = new ConvexReactClient(
   process.env.EXPO_PUBLIC_CONVEX_URL as string,
   {
-    expectAuth: true,
     unsavedChangesWarning: false,
   },
 )
 
 function InitialLayout() {
-  const { isAuthenticated, isLoading } = useConvexAuth()
+  const { isAuthenticated, isLoading: isAuthLoading } = useConvexAuth()
   const segments = useSegments()
   const router = useRouter()
 
   const [loaded, error] = useFonts({
-    Raleway_100Thin,
-    Raleway_100Thin_Italic,
-    Raleway_200ExtraLight,
-    Raleway_200ExtraLight_Italic,
-    Raleway_300Light,
-    Raleway_300Light_Italic,
-    Raleway_400Regular,
-    Raleway_400Regular_Italic,
-    Raleway_500Medium,
-    Raleway_500Medium_Italic,
-    Raleway_600SemiBold,
-    Raleway_600SemiBold_Italic,
-    Raleway_700Bold,
-    Raleway_700Bold_Italic,
-    Raleway_800ExtraBold,
-    Raleway_800ExtraBold_Italic,
-    Raleway_900Black,
-    Raleway_900Black_Italic,
+    Inter_100Thin,
+    Inter_200ExtraLight,
+    Inter_300Light,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold,
+    Inter_900Black,
+    Merriweather_300Light,
+    Merriweather_300Light_Italic,
+    Merriweather_400Regular,
+    Merriweather_400Regular_Italic,
+    Merriweather_700Bold,
+    Merriweather_700Bold_Italic,
+    Merriweather_900Black,
+    Merriweather_900Black_Italic,
   })
 
   useEffect(() => {
-    if (isLoading) return
+    if (isAuthLoading || !loaded) return
 
     const inAuthGroup = segments[0] === '(authenticated)'
 
@@ -74,7 +75,7 @@ function InitialLayout() {
       // Redirect unauthenticated users to the login/public page
       router.replace('/(public)')
     }
-  }, [isAuthenticated, isLoading, segments])
+  }, [isAuthenticated, isAuthLoading, segments, loaded])
 
   useEffect(() => {
     if (loaded || error) {
@@ -82,18 +83,36 @@ function InitialLayout() {
     }
   }, [loaded, error])
 
+  useEffect(() => {
+    const initRevenueCat = async () => {
+      try {
+        Purchases.setLogLevel(LOG_LEVEL.WARN)
+        // Platform-specific API keys
+        const iosApiKey = process.env.EXPO_PUBLIC_RC_TEST_KEY
+        const androidApiKey = process.env.EXPO_PUBLIC_RC_TEST_KEY
+
+        if (iosApiKey) {
+          if (Platform.OS === 'ios') {
+            Purchases.configure({ apiKey: iosApiKey })
+          } else if (Platform.OS === 'android') {
+            Purchases.configure({ apiKey: androidApiKey as string })
+          }
+        }
+      } catch (error) {
+        console.error('RevenueCat init error:', error)
+      }
+    }
+    initRevenueCat()
+  }, [])
+
   if (!loaded && !error) {
     return null
   }
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Protected guard={!isAuthenticated}>
-        <Stack.Screen name="(public)" />
-      </Stack.Protected>
-      <Stack.Protected guard={isAuthenticated}>
-        <Stack.Screen name="(authenticated)" />
-      </Stack.Protected>
+      <Stack.Screen name="(public)" />
+      <Stack.Screen name="(authenticated)" />
     </Stack>
   )
 }

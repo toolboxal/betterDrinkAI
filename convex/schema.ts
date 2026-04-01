@@ -4,10 +4,10 @@ import { v } from 'convex/values'
 export default defineSchema({
   // This table will be automatically synced with Better Auth
   users: defineTable({
-    name: v.string(),
-    email: v.string(),
-    image: v.optional(v.string()),
-    betterAuthId: v.string(),
+    name: v.string(), //from betterAuth
+    email: v.string(), //from betterAuth
+    image: v.optional(v.string()), //from betterAuth
+    betterAuthId: v.string(), //link to betterAuth User Table
     birthDate: v.optional(v.number()),
     gender: v.optional(v.string()),
     focus: v.optional(v.string()),
@@ -19,7 +19,8 @@ export default defineSchema({
     onboardingCompleted: v.optional(v.boolean()),
   })
     .index('by_email', ['email'])
-    .index('by_better_auth_id', ['betterAuthId']),
+    .index('by_better_auth_id', ['betterAuthId'])
+    .index('by_username', ['username']),
 
   // Add your own tables here for your app logic
   drinks: defineTable({
