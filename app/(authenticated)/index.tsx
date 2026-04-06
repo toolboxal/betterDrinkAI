@@ -1,14 +1,16 @@
 import { Button, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { authClient } from '@/lib/auth-client'
-import { router } from 'expo-router'
 
 const AuthenticatedPage = () => {
   const { data: session } = authClient.useSession()
 
   const handleSignOut = async () => {
-    await authClient.signOut()
-    router.replace('/(public)')
+    try {
+      await authClient.signOut()
+    } catch (error) {
+      console.error('Failed to sign out:', error)
+    }
   }
 
   return (

@@ -8,9 +8,18 @@
  * @module
  */
 
+import type * as aiHandler from "../aiHandler.js";
 import type * as auth from "../auth.js";
 import type * as authTriggers from "../authTriggers.js";
+import type * as dashboardAnalysis from "../dashboardAnalysis.js";
+import type * as drinkAnalysis from "../drinkAnalysis.js";
+import type * as drinks from "../drinks.js";
+import type * as gemini from "../gemini.js";
 import type * as http from "../http.js";
+import type * as images from "../images.js";
+import type * as openai from "../openai.js";
+import type * as rooms from "../rooms.js";
+import type * as seedRooms from "../seedRooms.js";
 import type * as users from "../users.js";
 
 import type {
@@ -20,9 +29,18 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  aiHandler: typeof aiHandler;
   auth: typeof auth;
   authTriggers: typeof authTriggers;
+  dashboardAnalysis: typeof dashboardAnalysis;
+  drinkAnalysis: typeof drinkAnalysis;
+  drinks: typeof drinks;
+  gemini: typeof gemini;
   http: typeof http;
+  images: typeof images;
+  openai: typeof openai;
+  rooms: typeof rooms;
+  seedRooms: typeof seedRooms;
   users: typeof users;
 }>;
 

@@ -73,3 +73,10 @@ export const checkUsernameAvailability = query({
     return existingUser === null
   },
 })
+
+export const current = query({
+  args: {},
+  handler: async (ctx) => {
+    return await getCurrentUserOrThrow(ctx)
+  },
+})

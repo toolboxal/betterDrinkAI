@@ -4,6 +4,7 @@ import { ConvexProvider, ConvexReactClient, useConvexAuth } from 'convex/react'
 import { Stack, useRouter, useSegments } from 'expo-router'
 import { StrictMode, useEffect } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
+import { SubscriptionProvider } from '@/components/SubscriptionProvider'
 import Purchases, { LOG_LEVEL } from 'react-native-purchases'
 import {
   Inter_100Thin,
@@ -122,7 +123,9 @@ export default function AuthLayout() {
     <StrictMode>
       <ConvexProvider client={convex}>
         <ConvexBetterAuthProvider client={convex} authClient={authClient}>
-          <InitialLayout />
+          <SubscriptionProvider>
+            <InitialLayout />
+          </SubscriptionProvider>
         </ConvexBetterAuthProvider>
       </ConvexProvider>
     </StrictMode>

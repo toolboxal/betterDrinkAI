@@ -1,5 +1,4 @@
 import { Button } from 'react-native'
-import { router } from 'expo-router'
 import { authClient } from '@/lib/auth-client'
 
 export default function SocialSignIn() {
@@ -12,7 +11,6 @@ export default function SocialSignIn() {
       // handle error
       return
     }
-    router.replace('/(authenticated)')
   }
   return <Button title="Login with Google" onPress={handleLogin} />
 }

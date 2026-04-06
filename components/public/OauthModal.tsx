@@ -37,7 +37,8 @@ const OauthModal = ({
             console.error('Native Apple Auth Error:', error)
             return
           }
-          router.replace('/(authenticated)')
+          // We don't need to manually redirect here. Root layout handles it.
+          onClose()
         }
       } catch (e: any) {
         if (e.code !== 'ERR_REQUEST_CANCELED') {
@@ -56,7 +57,8 @@ const OauthModal = ({
       console.error(`${typeofOauth} Auth Error:`, error)
       return
     }
-    router.replace('/(authenticated)')
+    // We don't need to manually redirect here. Root layout handles it.
+    onClose()
   }
 
   return (
