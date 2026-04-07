@@ -4,8 +4,9 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { useQuery } from 'convex/react'
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { Pressable, SectionList, StyleSheet, Text, View } from 'react-native'
+import { Pressable, SectionList, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import Text from '@/components/CustomText'
 
 const CommunityPage = () => {
   const router = useRouter()
@@ -96,7 +97,7 @@ const CommunityPage = () => {
               style={{
                 color: 'white',
                 fontSize: 9,
-                fontFamily: 'Montserrat_700Bold',
+                fontFamily: 'Inter_700Bold',
               }}
             >
               {unreadNotificationCount}
@@ -146,17 +147,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 34,
     color: 'black',
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
   },
   subtitle: {
     fontSize: 16,
     color: 'black',
     marginTop: 4,
-    fontFamily: 'Montserrat_400Regular',
+    fontFamily: 'Inter_400Regular',
   },
   sectionHeader: {
     fontSize: 20,
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
     color: 'black',
     marginTop: 10,
     marginBottom: 16,
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
   },
   roomName: {
     fontSize: 18,
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
     color: 'black',
     marginBottom: 4,
   },
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: gray[600],
     lineHeight: 18,
-    fontFamily: 'Montserrat_400Regular',
+    fontFamily: 'Inter_400Regular',
   },
   emptyContainer: {
     alignItems: 'center',

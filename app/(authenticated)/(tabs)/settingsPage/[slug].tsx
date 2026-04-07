@@ -18,9 +18,9 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native'
+import Text from '@/components/CustomText'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import * as z from 'zod'
 
@@ -218,7 +218,7 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
         >
           <Text
             style={{
-              fontFamily: 'Montserrat_400Regular',
+              fontFamily: 'Inter_400Regular',
               fontSize: 12,
               color: 'white',
             }}
@@ -249,7 +249,7 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
                 <Text
                   style={{
                     fontSize: 11,
-                    fontFamily: 'Montserrat_500Medium',
+                    fontFamily: 'Inter_500Medium',
                     marginLeft: 15,
                     marginTop: 2,
                     color:
@@ -296,7 +296,7 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
               <Text
                 style={{
                   fontSize: 11,
-                  fontFamily: 'Montserrat_500Medium',
+                  fontFamily: 'Inter_500Medium',
                   marginLeft: 15,
                   marginTop: 2,
                   color: '#FF4B4B',
@@ -609,25 +609,25 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   inputLabel: {
-    fontFamily: 'Montserrat_400Regular',
+    fontFamily: 'Inter_400Regular',
     fontSize: 11,
     color: gray[400],
     marginBottom: 5,
   },
   textInputStyle: {
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'Inter_500Medium',
     fontSize: 18,
     color: 'black',
   },
   sectionHeader: {
     fontSize: 20,
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'Inter_700Bold',
     color: 'black',
     marginTop: 10,
   },
   sectionSubheader: {
     fontSize: 14,
-    fontFamily: 'Montserrat_400Regular',
+    fontFamily: 'Inter_400Regular',
     color: gray[500],
   },
   choiceCard: {
@@ -645,7 +645,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   choiceText: {
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
     fontSize: 16,
     color: 'black',
   },

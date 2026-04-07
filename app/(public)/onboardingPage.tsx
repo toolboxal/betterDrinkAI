@@ -437,7 +437,7 @@ const OnboardingPage = () => {
                         <Text
                           style={{
                             fontSize: 12,
-                            fontFamily: 'Montserrat_500Medium',
+                            fontFamily: 'Inter_500Medium',
                             marginTop: -15,
                             marginBottom: 15,
                             color:
@@ -1110,7 +1110,7 @@ const OnboardingPage = () => {
                       <Text
                         style={{
                           color: gray[500],
-                          fontFamily: 'Montserrat_500Medium',
+                          fontFamily: 'Inter_500Medium',
                           fontSize: 14,
                         }}
                       >
@@ -1133,7 +1133,7 @@ const OnboardingPage = () => {
                       <Text
                         style={{
                           color: gray[500],
-                          fontFamily: 'Montserrat_500Medium',
+                          fontFamily: 'Inter_500Medium',
                           fontSize: 14,
                         }}
                       >
@@ -1144,7 +1144,7 @@ const OnboardingPage = () => {
                       <Text
                         style={{
                           color: gray[500],
-                          fontFamily: 'Montserrat_500Medium',
+                          fontFamily: 'Inter_500Medium',
                           fontSize: 14,
                         }}
                       >
@@ -1342,14 +1342,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'Inter_700Bold',
     color: '#1C1C1E',
     marginBottom: 8,
     lineHeight: 40,
   },
   subtitle: {
     fontSize: 16,
-    fontFamily: 'Montserrat_400Regular',
+    fontFamily: 'Inter_400Regular',
     color: gray[500],
     marginBottom: 32,
     lineHeight: 24,
@@ -1365,13 +1365,13 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 12,
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'Inter_500Medium',
     color: gray[400],
     marginBottom: 5,
   },
   inputElement: {
     fontSize: 20,
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'Inter_500Medium',
     color: '#1C1C1E',
     // backgroundColor: 'yellow',
   },
@@ -1392,7 +1392,7 @@ const styles = StyleSheet.create({
   },
   appleHealthBtnText: {
     fontSize: 17,
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
   },
   manualInputBtn: {
     alignItems: 'center',
@@ -1401,7 +1401,7 @@ const styles = StyleSheet.create({
   },
   manualInputBtnText: {
     fontSize: 15,
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'Inter_500Medium',
     color: gray[500],
     textDecorationLine: 'underline',
   },
@@ -1417,7 +1417,7 @@ const styles = StyleSheet.create({
   infoBoxText: {
     flex: 1,
     fontSize: 13,
-    fontFamily: 'Montserrat_400Regular',
+    fontFamily: 'Inter_400Regular',
     color: gray[600],
     lineHeight: 18,
   },
@@ -1444,7 +1444,7 @@ const styles = StyleSheet.create({
   },
   pickerLabel: {
     fontSize: 14,
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
     color: '#8E8E93',
     textAlign: 'center',
     marginBottom: 8,
@@ -1454,7 +1454,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   pickerItem: {
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
   },
   genderRow: {
     flexDirection: 'row',
@@ -1477,7 +1477,7 @@ const styles = StyleSheet.create({
   },
   genderCardText: {
     fontSize: 18,
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
     color: '#1C1C1E',
   },
   genderCardTextActive: {
@@ -1521,13 +1521,13 @@ const styles = StyleSheet.create({
   },
   selectCardTitle: {
     fontSize: 16,
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
     color: '#1C1C1E',
     marginBottom: 4,
   },
   selectCardDesc: {
     fontSize: 13,
-    fontFamily: 'Montserrat_400Regular',
+    fontFamily: 'Inter_400Regular',
     color: '#8E8E93',
   },
   radioIndicator: {
@@ -1590,7 +1590,7 @@ const styles = StyleSheet.create({
   primaryBtnText: {
     color: '#FFFFFF',
     fontSize: 18,
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
   },
   proBadge: {
     flexDirection: 'row',
@@ -1604,7 +1604,7 @@ const styles = StyleSheet.create({
   },
   proBadgeText: {
     color: '#E6A800',
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'Inter_700Bold',
     fontSize: 12,
     letterSpacing: 1,
   },
@@ -1630,7 +1630,7 @@ const styles = StyleSheet.create({
   },
   featureRowText: {
     fontSize: 16,
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'Inter_500Medium',
     color: '#1C1C1E',
   },
   priceContainer: {
@@ -1640,18 +1640,18 @@ const styles = StyleSheet.create({
   },
   priceAmount: {
     fontSize: 48,
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'Inter_700Bold',
     color: '#1C1C1E',
   },
   pricePeriod: {
     fontSize: 18,
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'Inter_500Medium',
     color: '#8E8E93',
     marginLeft: 4,
   },
   priceGuarantee: {
     fontSize: 14,
-    fontFamily: 'Montserrat_400Regular',
+    fontFamily: 'Inter_400Regular',
     color: '#8E8E93',
   },
   skipBtn: {
@@ -1661,7 +1661,7 @@ const styles = StyleSheet.create({
   },
   skipBtnText: {
     fontSize: 15,
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'Inter_500Medium',
     color: '#8E8E93',
   },
   securityIconBox: {
@@ -1693,18 +1693,18 @@ const styles = StyleSheet.create({
   },
   ssoBtnText: {
     fontSize: 18,
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
   },
   tosText: {
     marginTop: 32,
     fontSize: 13,
-    fontFamily: 'Montserrat_400Regular',
+    fontFamily: 'Inter_400Regular',
     color: '#8E8E93',
     textAlign: 'center',
     lineHeight: 20,
   },
   benefitsText: {
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'Inter_500Medium',
     fontSize: 16,
     color: gray[700],
     marginVertical: 5,
@@ -1722,13 +1722,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   paywallFeatureHeading: {
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
     fontSize: 16,
     color: gray[700],
     marginBottom: 12,
   },
   paywallFeaturePrice: {
-    fontFamily: 'Montserrat_300Light',
+    fontFamily: 'Inter_300Light',
     fontSize: 26,
     color: primary[700],
     letterSpacing: 0.5,
@@ -1745,7 +1745,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   paywallSaveText: {
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'Inter_700Bold',
     fontSize: 14,
     color: primary[950],
   },

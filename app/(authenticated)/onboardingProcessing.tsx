@@ -1,6 +1,5 @@
 import Text from '@/components/CustomText'
 import { PulseLoader } from '@/components/PulseLoader'
-import { primary } from '@/constants/colors'
 import { api } from '@/convex/_generated/api'
 import { useMutation, useQuery } from 'convex/react'
 import { useRouter } from 'expo-router'
@@ -111,7 +110,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#FF4B4B',
     textAlign: 'center',
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'Inter_500Medium',
   },
 })
 

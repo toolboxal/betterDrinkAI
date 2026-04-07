@@ -10,7 +10,8 @@ import { Image } from 'expo-image'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useRouter } from 'expo-router'
 import { useEffect, useRef, useState } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
+import Text from '@/components/CustomText'
 import Animated, { FadeIn, FadeInDown, FadeOut } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -113,7 +114,7 @@ const HomePage = () => {
         <Text
           style={{
             fontSize: 16,
-            fontFamily: 'Montserrat_400Regular',
+            fontFamily: 'Inter_400Regular',
             textAlign: 'center',
             color: gray[600],
             lineHeight: 22,
@@ -135,7 +136,7 @@ const HomePage = () => {
             <Text
               style={{
                 color: 'white',
-                fontFamily: 'Montserrat_700Bold',
+                fontFamily: 'Inter_700Bold',
                 fontSize: 16,
               }}
             >
@@ -190,7 +191,7 @@ const HomePage = () => {
             />
             <Text
               style={{
-                fontFamily: 'Montserrat_300Light',
+                fontFamily: 'Inter_300Light',
                 fontSize: 32,
                 letterSpacing: -2,
                 marginLeft: -4,
@@ -419,21 +420,21 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     marginBottom: 20,
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'Inter_500Medium',
     paddingLeft: 10,
     color: 'black',
   },
   cardText: {
     fontSize: 16,
     lineHeight: 22,
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'Inter_500Medium',
     marginTop: 3,
   },
   summaryText: {
     fontSize: 16,
     color: gray[950],
     lineHeight: 22,
-    fontFamily: 'Montserrat_400Regular',
+    fontFamily: 'Inter_400Regular',
   },
   sectionContainer: {
     borderRadius: 40,
@@ -448,7 +449,7 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   titleDescription: {
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'Inter_500Medium',
     fontSize: 11,
     textTransform: 'uppercase',
     letterSpacing: 2,
@@ -484,14 +485,14 @@ const styles = StyleSheet.create({
   },
   burnOffLabel: {
     fontSize: 12,
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'Inter_700Bold',
     color: 'white',
     textTransform: 'uppercase',
     marginVertical: 3,
   },
   burnOffValue: {
     fontSize: 18,
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'Inter_700Bold',
     color: 'white',
   },
 
@@ -518,7 +519,7 @@ const styles = StyleSheet.create({
   },
   cheerText: {
     fontSize: 16,
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'Inter_700Bold',
     color: green[100],
     marginTop: 10,
     lineHeight: 20,
@@ -538,7 +539,7 @@ const styles = StyleSheet.create({
   },
   statusBadgeText: {
     fontSize: 15,
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'Inter_700Bold',
     textTransform: 'uppercase',
   },
 })

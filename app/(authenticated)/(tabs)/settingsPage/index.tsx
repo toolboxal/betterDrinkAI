@@ -9,9 +9,10 @@ import { useFocusEffect } from '@react-navigation/native'
 import { useMutation } from 'convex/react'
 import { useRouter } from 'expo-router'
 import { useCallback, useState } from 'react'
-import { Alert, Linking, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Alert, Linking, Pressable, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { authClient } from '@/lib/auth-client'
+import Text from '@/components/CustomText'
 
 const SettingsPage = () => {
   const deleteAccount = useMutation(api.users.deleteAccount)
@@ -114,7 +115,7 @@ const SettingsPage = () => {
               <Text
                 style={{
                   fontSize: 11,
-                  fontFamily: 'Montserrat_400Regular',
+                  fontFamily: 'Inter_400Regular',
                   color: 'white',
                 }}
               >
@@ -177,13 +178,13 @@ export default SettingsPage
 const styles = StyleSheet.create({
   headerText: {
     fontSize: 24,
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
     textAlign: 'center',
     marginVertical: 15,
   },
   subHeader: {
     fontSize: 20,
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
     marginVertical: 10,
   },
   container: {
@@ -204,6 +205,6 @@ const styles = StyleSheet.create({
   },
   contentText: {
     fontSize: 16,
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'Inter_500Medium',
   },
 })

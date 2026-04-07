@@ -8,9 +8,9 @@ import {
   Linking,
   Pressable,
   StyleSheet,
-  Text,
   View,
 } from 'react-native'
+import Text from '@/components/CustomText'
 import Purchases, { PurchasesOffering } from 'react-native-purchases'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -237,7 +237,7 @@ const PaywallPage = () => {
           <Text
             style={{
               color: gray[500],
-              fontFamily: 'Montserrat_500Medium',
+              fontFamily: 'Inter_500Medium',
               fontSize: 14,
             }}
           >
@@ -260,7 +260,7 @@ const PaywallPage = () => {
           <Text
             style={{
               color: gray[500],
-              fontFamily: 'Montserrat_500Medium',
+              fontFamily: 'Inter_500Medium',
               fontSize: 14,
             }}
           >
@@ -271,7 +271,7 @@ const PaywallPage = () => {
           <Text
             style={{
               color: gray[500],
-              fontFamily: 'Montserrat_500Medium',
+              fontFamily: 'Inter_500Medium',
               fontSize: 14,
             }}
           >
@@ -299,7 +299,7 @@ const PaywallPage = () => {
         <Text
           style={{
             color: 'white',
-            fontFamily: 'Montserrat_700Bold',
+            fontFamily: 'Inter_700Bold',
             fontSize: 18,
           }}
         >
@@ -319,13 +319,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   title: {
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
     fontSize: 32,
     color: primary[700],
     lineHeight: 42,
   },
   benefitsText: {
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'Inter_500Medium',
     fontSize: 16,
     color: gray[700],
     marginVertical: 5,
@@ -343,13 +343,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   featureHeading: {
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'Inter_600SemiBold',
     fontSize: 16,
     color: gray[700],
     marginBottom: 12,
   },
   featurePrice: {
-    fontFamily: 'Montserrat_300Light',
+    fontFamily: 'Inter_300Light',
     fontSize: 26,
     color: primary[700],
     letterSpacing: 0.5,
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   saveText: {
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'Inter_700Bold',
     fontSize: 14,
     color: primary[950],
   },
