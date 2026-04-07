@@ -2,6 +2,7 @@ import Text from '@/components/CustomText'
 import { PulseLoader } from '@/components/PulseLoader'
 import { gray, primary } from '@/constants/colors'
 import { Doc } from '@/convex/_generated/dataModel'
+import { authClient } from '@/lib/auth-client'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import Ionicons from '@expo/vector-icons/Ionicons'
@@ -11,10 +12,10 @@ import * as ImagePicker from 'expo-image-picker'
 import { Stack, useRouter } from 'expo-router'
 import { useEffect, useRef, useState } from 'react'
 import { Button, Linking, Pressable, StyleSheet, View } from 'react-native'
-import * as SecureStore from 'expo-secure-store'
-import Constants from 'expo-constants'
-import { authClient } from '@/lib/auth-client'
 import ErrorBox from './ErrorBox'
+import { useAction } from 'convex/react'
+import { api } from '@/convex/_generated/api'
+import { ConvexError } from 'convex/values'
 
 type ErrorType = {
   error: string
@@ -47,6 +48,8 @@ const Camera = () => {
   const [error, setError] = useState<ErrorType | null>(null)
   const [invalidCount, setInvalidCount] = useState(0)
 
+  const processDrinkImage = useAction(api.aiHandler.aiHandler)
+
   useEffect(() => {
     if (drinkData && image) {
       router.replace({
@@ -58,85 +61,44 @@ const Camera = () => {
 
   const sendImagetoAPI = async (imageBase64: string) => {
     try {
-      // Get the session token managed by Better Auth in Expo
-      const scheme = Constants.expoConfig?.scheme as string
-      const token = await SecureStore.getItemAsync(
-        `${scheme}_better_auth_session_token`,
-      )
-
-      if (!token) {
-        console.error('No token available')
-        setError({
-          error: 'Unauthorized',
-          message: 'Authentication token not available',
-        })
-        setIsLoading(false)
-        return
-      }
-
-      // Send to our API endpoint
-      // Use your computer's IP address instead of localhost for physical devices
-      const baseUrl = process.env.EXPO_PUBLIC_CONVEX_SITE_URL
-      if (!baseUrl) {
-        setError({
-          error: 'Configuration Error',
-          message: 'API URL is not configured',
-        })
-        setIsLoading(false)
-        return
-      }
-      const apiUrl = `${baseUrl}/ai/drink-recognition`
-
       const now = new Date()
       const localDayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
 
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ imageBase64, localDayKey }),
-      })
+      const responseDrinkData = await processDrinkImage({ imageBase64, localDayKey })
+      console.log('AI Response (Drink Data):', responseDrinkData)
+      setDrinkData(responseDrinkData)
+    } catch (e: any) {
+      console.error('catch block error:', e)
+      
+      if (e instanceof ConvexError) {
+        const errorData = (e as any).data
+        if (errorData?.error === 'Unauthorized') {
+          setError(errorData)
+          await authClient.signOut()
+          setIsLoading(false)
+          router.replace('/(public)')
+          return
+        }
 
-      if (response.status === 401) {
-        setError({
-          error: 'Unauthorized',
-          message: 'You are not authorized to make this request',
-        })
-        await authClient.signOut()
-        setIsLoading(false)
-        router.replace('/(public)')
-      }
-
-      if (response.status === 400) {
-        const errorData = await response.json()
-        console.log(
-          'Full API Error Response:',
-          JSON.stringify(errorData, null, 2),
-        )
-        // Handle content moderation error specifically
         if (
-          errorData.error === 'not_a_drink' ||
-          errorData.error === 'low_confidence' ||
-          errorData.error === 'unclear_image'
+          errorData?.error === 'not_a_drink' ||
+          errorData?.error === 'low_confidence' ||
+          errorData?.error === 'unclear_image'
         ) {
           setError(errorData)
           setInvalidCount((prev) => prev + 1)
-          throw new Error(errorData.message || 'Please take a photo of a drink')
+        } else {
+          setError({
+            error: errorData?.error || 'Error',
+            message: errorData?.message || e.message
+          })
         }
-        throw new Error(errorData.error || 'API request failed')
+      } else {
+        setError({
+          error: 'Error',
+          message: e.message || 'API request failed'
+        })
       }
-
-      if (response.status === 200) {
-        const drinkData: Doc<'drinks'> = await response.json()
-        console.log('AI Response (Drink Data):', drinkData)
-        setDrinkData(drinkData)
-
-        return
-      }
-    } catch (e: any) {
-      console.error('catch block error:', e)
     } finally {
       setIsLoading(false)
     }

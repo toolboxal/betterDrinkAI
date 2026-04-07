@@ -64,16 +64,13 @@ const PaywallPage = () => {
       setIsLoading(true)
       const customerInfo = await Purchases.restorePurchases()
       // Use the same entitlement check that you use in SubscriptionProvider
-      if (
-        typeof customerInfo.entitlements.active['Drink Better Premium'] !==
-        'undefined'
-      ) {
+      if (typeof customerInfo.entitlements.active['pro'] !== 'undefined') {
         Alert.alert('Success', 'Your purchases have been restored!')
         router.back()
       } else {
         Alert.alert(
           'No pass found',
-          "We couldn't find an active Premium subscription for your account.",
+          "We couldn't find an active Pro subscription for your account.",
         )
       }
     } catch (e: any) {
@@ -102,7 +99,7 @@ const PaywallPage = () => {
         </Pressable>
       </View>
       <Text style={styles.title}>
-        {`Go Premium and \nStart Your Journey \nto Better Health`}
+        {`Go Pro and \nStart Your Journey \nto Better Health`}
       </Text>
       <View style={{ marginTop: 15, marginBottom: 10, gap: 10 }}>
         <Text

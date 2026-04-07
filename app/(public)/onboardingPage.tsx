@@ -285,16 +285,13 @@ const OnboardingPage = () => {
     try {
       setIsLoadingOffers(true)
       const customerInfo = await Purchases.restorePurchases()
-      if (
-        typeof customerInfo.entitlements.active['Drink Better Premium'] !==
-        'undefined'
-      ) {
+      if (typeof customerInfo.entitlements.active['pro'] !== 'undefined') {
         Alert.alert('Success', 'Your purchases have been restored!')
         goToNextPage()
       } else {
         Alert.alert(
           'No pass found',
-          "We couldn't find an active Premium subscription for your account.",
+          "We couldn't find an active Pro subscription for your account.",
         )
       }
     } catch (e: any) {
@@ -1595,7 +1592,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Montserrat_600SemiBold',
   },
-  premiumBadge: {
+  proBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFF9E6',
@@ -1605,7 +1602,7 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 24,
   },
-  premiumBadgeText: {
+  proBadgeText: {
     color: '#E6A800',
     fontFamily: 'Montserrat_700Bold',
     fontSize: 12,

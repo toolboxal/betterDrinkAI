@@ -2,7 +2,8 @@ import { z } from 'zod'
 import { zodToJsonSchema } from 'zod-to-json-schema'
 import { type Doc, type Id } from './_generated/dataModel'
 import { api } from './_generated/api'
-import { httpAction } from './_generated/server'
+import { action } from './_generated/server'
+import { v, ConvexError } from 'convex/values'
 
 type Drink = Doc<'drinks'>
 
@@ -91,31 +92,32 @@ import { createOpenAIClient } from './openai'
 // Initialize the Google AI client
 const genAI = createGeminiClient()
 
-export const aiHandler = httpAction(async (ctx, request) => {
-  // Check if user is authenticated
-  const identity = await ctx.auth.getUserIdentity()
+export const aiHandler = action({
+  args: {
+    imageBase64: v.string(),
+    localDayKey: v.optional(v.string()),
+  },
+  handler: async (ctx, args): Promise<any> => {
+    // Check if user is authenticated
+    const identity = await ctx.auth.getUserIdentity()
 
-  if (!identity) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-      status: 401,
-    })
-  }
-
-  try {
-    // 1. Get the image data from the request body
-    const { imageBase64, localDayKey } = await request.json()
-    if (!imageBase64) {
-      return new Response(JSON.stringify({ error: 'Image data is required' }), {
-        status: 400,
-      })
+    if (!identity) {
+      throw new ConvexError({ error: 'Unauthorized', message: 'Unauthorized' })
     }
 
-    const imagePart = {
-      inlineData: {
-        data: imageBase64,
-        mimeType: 'image/jpeg',
-      },
-    }
+    try {
+      // 1. Get the image data from the request body
+      const { imageBase64, localDayKey } = args
+      if (!imageBase64) {
+        throw new ConvexError({ error: 'Image data is required', message: 'Image data is required' })
+      }
+
+      const imagePart = {
+        inlineData: {
+          data: imageBase64,
+          mimeType: 'image/jpeg',
+        },
+      }
 
     const moderationBaseSchema = zodToJsonSchema(moderationSchema)
     const drinkBaseSchema = zodToJsonSchema(drinkSchema)
@@ -225,39 +227,29 @@ export const aiHandler = httpAction(async (ctx, request) => {
     // 3. Check if image is a drink with sufficient confidence
     if (!moderation.isDrink) {
       if (moderation.confidence < 0.5) {
-        return new Response(
-          JSON.stringify({
-            error: 'unclear_image',
-            message: 'The image is unclear or blurry.',
-            reason: moderation.reason,
-            confidence: moderation.confidence,
-            suggestion: moderation.suggestion,
-          }),
-          { status: 400 },
-        )
+        throw new ConvexError({
+          error: 'unclear_image',
+          message: 'The image is unclear or blurry.',
+          reason: moderation.reason,
+          confidence: moderation.confidence,
+          suggestion: moderation.suggestion,
+        })
       }
-      return new Response(
-        JSON.stringify({
-          error: 'not_a_drink',
-          message: 'The image does not appear to contain a beverage.',
-          reason: moderation.reason,
-          confidence: moderation.confidence,
-          suggestion: moderation.suggestion,
-        }),
-        { status: 400 },
-      )
+      throw new ConvexError({
+        error: 'not_a_drink',
+        message: 'The image does not appear to contain a beverage.',
+        reason: moderation.reason,
+        confidence: moderation.confidence,
+        suggestion: moderation.suggestion,
+      })
     } else if (moderation.confidence < 0.8) {
-      return new Response(
-        JSON.stringify({
-          error: 'low_confidence',
-          message:
-            'We are not confident enough that this is a drink. Please take a clearer photo.',
-          reason: moderation.reason,
-          confidence: moderation.confidence,
-          suggestion: moderation.suggestion,
-        }),
-        { status: 400 },
-      )
+      throw new ConvexError({
+        error: 'low_confidence',
+        message: 'We are not confident enough that this is a drink. Please take a clearer photo.',
+        reason: moderation.reason,
+        confidence: moderation.confidence,
+        suggestion: moderation.suggestion,
+      })
     }
 
     // 4. Fetch User Information and History for Context
@@ -431,15 +423,11 @@ export const aiHandler = httpAction(async (ctx, request) => {
     }
 
     // 5. Return the structured data
-    return new Response(JSON.stringify(newDrink), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    })
+    return newDrink
   } catch (error) {
+    if (error instanceof ConvexError) throw error;
     console.error('Error in AI API route:', error)
-    return new Response(
-      JSON.stringify({ error: 'An internal error occurred' }),
-      { status: 500 },
-    )
+    throw new ConvexError({ error: 'An internal error occurred', message: 'An internal error occurred' })
   }
+}
 })

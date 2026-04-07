@@ -119,8 +119,8 @@ const HomePage = () => {
             lineHeight: 22,
           }}
         >
-          Your trial has ended. Upgrade to Premium to unlock your daily Drink
-          Better AI analysis, deep dives, and weekly trends.
+          Your trial has ended. Upgrade to Pro to unlock your daily Drink Better
+          AI analysis, deep dives, and weekly trends.
         </Text>
         <LinearGradient
           colors={[primary[400], primary[600]]}
@@ -139,7 +139,7 @@ const HomePage = () => {
                 fontSize: 16,
               }}
             >
-              Go Premium
+              Go Pro
             </Text>
           </Pressable>
         </LinearGradient>

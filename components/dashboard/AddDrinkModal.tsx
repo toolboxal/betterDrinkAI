@@ -49,11 +49,11 @@ const AddDrinkModal = ({
               } else {
                 Alert.alert(
                   'Camera Locked',
-                  'Your trial has ended. Upgrade to Premium to use the AI Camera scanner.',
+                  'Your trial has ended. Upgrade to Pro to use the AI Camera scanner.',
                   [
                     { text: 'Cancel', style: 'cancel' },
                     {
-                      text: 'Go Premium',
+                      text: 'Go Pro',
                       onPress: () => {
                         router.push('/(authenticated)/paywallPage')
                       },

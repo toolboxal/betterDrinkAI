@@ -20,8 +20,12 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null)
 
   const updateStatus = (info: CustomerInfo) => {
-    const premiumActive = typeof info.entitlements.active['pro'] !== 'undefined'
-    setIsPro(premiumActive)
+    console.log(
+      'Active RevenueCat Entitlements found:',
+      Object.keys(info.entitlements.active),
+    )
+    const proActive = typeof info.entitlements.active['pro'] !== 'undefined'
+    setIsPro(proActive)
     setCustomerInfo(info)
     setIsLoading(false)
   }
