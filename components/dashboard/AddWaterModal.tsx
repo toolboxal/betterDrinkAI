@@ -55,17 +55,27 @@ const AddWaterModal = ({
         },
       })
       // Sync to Apple Health
-      await syncWaterToHealth(amountMl)
+      try {
+        await syncWaterToHealth(amountMl)
+      } catch (healthError) {
+        console.warn('Health sync failed, but water was logged:', healthError)
+      }
       onClose()
     } catch (error) {
       console.error('Failed to log water:', error)
+      // TODO: Show user-facing error notification
     }
   }
 
   const { handleSubmit, control } = useForm({
     resolver: zodResolver(
       z.object({
-        amount: z.string().min(1, 'Amount is required'),
+        amount: z
+          .string()
+          .min(1, 'Amount is required')
+          .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+            message: 'Amount must be a positive number',
+          }),
       }),
     ),
     defaultValues: {

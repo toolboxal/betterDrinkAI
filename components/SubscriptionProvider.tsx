@@ -20,7 +20,6 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null)
 
   const updateStatus = (info: CustomerInfo) => {
-    // Replace 'premium' with your actual RevenueCat Entitlement ID
     const premiumActive = typeof info.entitlements.active['pro'] !== 'undefined'
     setIsPro(premiumActive)
     setCustomerInfo(info)
@@ -48,9 +47,9 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({
 
     Purchases.addCustomerInfoUpdateListener(listener)
 
-    // return () => {
-    //   Purchases.removeCustomerInfoUpdateListener(listener);
-    // };
+    return () => {
+      Purchases.removeCustomerInfoUpdateListener(listener)
+    }
   }, [])
 
   return (

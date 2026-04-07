@@ -33,6 +33,9 @@ export const joinRoom = mutation({
   handler: async (ctx, args) => {
     const user = await getCurrentUserOrThrow(ctx)
 
+    const room = await ctx.db.get(args.roomId)
+    if (!room) throw new Error('Room not found')
+
     const existing = await ctx.db
       .query('room_members')
       .withIndex('byRoomAndUser', (q) =>
@@ -379,11 +382,13 @@ export const markNotificationsAsRead = mutation({
       .query('notifications')
       .withIndex('byUser', (q) => q.eq('userId', user._id))
       .filter((q) => q.eq(q.field('isRead'), false))
-      .collect()
+      .take(50)
 
     for (const n of unreadNotifications) {
       await ctx.db.patch(n._id, { isRead: true })
     }
+
+    return unreadNotifications.length
   },
 })
 

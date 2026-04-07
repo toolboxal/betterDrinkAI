@@ -1,14 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-
+import Camera from '@/components/camera/Camera'
+import { View } from 'react-native'
 const CameraPage = () => {
   return (
-    <View>
-      <Text>CameraPage</Text>
+    <View style={{ flex: 1 }}>
+      <Camera />
     </View>
   )
 }
-
 export default CameraPage
-
-const styles = StyleSheet.create({})
