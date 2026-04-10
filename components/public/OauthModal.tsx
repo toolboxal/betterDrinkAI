@@ -1,11 +1,12 @@
 import { gray, primary } from '@/constants/colors'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import { useRouter } from 'expo-router'
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Modal, Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { authClient } from '@/lib/auth-client'
 import * as AppleAuthentication from 'expo-apple-authentication'
 import { Platform } from 'react-native'
+import Text from '../CustomText'
 
 const OauthModal = ({
   visible,
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: 14,
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
     color: primary[900],
     letterSpacing: -0.5,
   },
@@ -134,6 +135,6 @@ const styles = StyleSheet.create({
   lastUsedText: {
     color: primary[50],
     fontSize: 10,
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
 })

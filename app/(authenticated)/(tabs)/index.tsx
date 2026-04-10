@@ -36,9 +36,10 @@ const HomePage = () => {
   // -- DAILY INSIGHT LOGIC --
   const now = new Date()
   const dayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
-  const dailyInsight = useQuery(api.dashboardAnalysis.getDailyInsight, {
-    dayKey,
-  })
+  const dailyInsight = useQuery(
+    api.dashboardAnalysis.getDailyInsight,
+    isPro ? { dayKey } : 'skip',
+  )
   const generateInsight = useAction(api.dashboardAnalysis.generateDailyInsight)
 
   const isGeneratingRef = useRef(false)
@@ -64,7 +65,7 @@ const HomePage = () => {
       }
 
       // Trigger generation only when insight is null and we aren't currently generating
-      if (dailyInsight === null && !isGeneratingRef.current) {
+      if (isPro && dailyInsight === null && !isGeneratingRef.current) {
         isGeneratingRef.current = true
         const offset = new Date().getTimezoneOffset()
 
@@ -72,6 +73,7 @@ const HomePage = () => {
           dayKey,
           timezoneOffset: offset,
           steps: currentSteps || undefined,
+          isPro,
         })
           .catch((err) => {
             console.error('AI Generation failed', err)
@@ -109,18 +111,18 @@ const HomePage = () => {
             color: 'black',
           }}
         >
-          Drink Better AI Locked
+          Better Drink AI Locked
         </Text>
         <Text
           style={{
             fontSize: 16,
-            fontFamily: 'Inter_400Regular',
+            fontFamily: 'PlusJakartaSans_400Regular',
             textAlign: 'center',
             color: gray[600],
             lineHeight: 22,
           }}
         >
-          Your trial has ended. Upgrade to Pro to unlock your daily Drink Better
+          Your trial has ended. Upgrade to Pro to unlock your daily Better Drink
           AI analysis, deep dives, and weekly trends.
         </Text>
         <LinearGradient
@@ -136,7 +138,7 @@ const HomePage = () => {
             <Text
               style={{
                 color: 'white',
-                fontFamily: 'Inter_700Bold',
+                fontFamily: 'PlusJakartaSans_700Bold',
                 fontSize: 16,
               }}
             >
@@ -186,18 +188,18 @@ const HomePage = () => {
           >
             <Image
               source={require('@/assets/images/bubbles_bottle.svg')}
-              style={{ width: 26, height: 26 }}
+              style={{ width: 20, height: 20 }}
               contentFit="contain"
             />
             <Text
               style={{
-                fontFamily: 'Inter_300Light',
-                fontSize: 32,
+                fontFamily: 'PlusJakartaSans_200ExtraLight',
+                fontSize: 24,
                 letterSpacing: -2,
                 marginLeft: -4,
               }}
             >
-              Drink Better
+              Better Drink AI
             </Text>
           </Animated.View>
 
@@ -420,21 +422,21 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     marginBottom: 20,
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     paddingLeft: 10,
     color: 'black',
   },
   cardText: {
     fontSize: 16,
-    lineHeight: 22,
-    fontFamily: 'Inter_500Medium',
+    lineHeight: 20,
+    fontFamily: 'PlusJakartaSans_400Regular',
     marginTop: 3,
   },
   summaryText: {
     fontSize: 16,
     color: gray[950],
-    lineHeight: 22,
-    fontFamily: 'Inter_400Regular',
+    lineHeight: 20,
+    fontFamily: 'PlusJakartaSans_400Regular',
   },
   sectionContainer: {
     borderRadius: 40,
@@ -449,7 +451,7 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   titleDescription: {
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     fontSize: 11,
     textTransform: 'uppercase',
     letterSpacing: 2,
@@ -485,14 +487,14 @@ const styles = StyleSheet.create({
   },
   burnOffLabel: {
     fontSize: 12,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: 'white',
     textTransform: 'uppercase',
     marginVertical: 3,
   },
   burnOffValue: {
     fontSize: 18,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: 'white',
   },
 
@@ -519,7 +521,7 @@ const styles = StyleSheet.create({
   },
   cheerText: {
     fontSize: 16,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_400Regular',
     color: green[100],
     marginTop: 10,
     lineHeight: 20,
@@ -539,7 +541,7 @@ const styles = StyleSheet.create({
   },
   statusBadgeText: {
     fontSize: 15,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     textTransform: 'uppercase',
   },
 })

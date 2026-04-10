@@ -8,6 +8,7 @@ import { useMutation, useQuery } from 'convex/react'
 import { format } from 'date-fns'
 import { Image } from 'expo-image'
 import * as ImagePicker from 'expo-image-picker'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -200,12 +201,19 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
             height: 100,
             borderRadius: 100,
             overflow: 'hidden',
+            backgroundColor: gray[200],
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          <Image
-            source={{ uri: profileImage }}
-            style={{ width: '100%', height: '100%' }}
-          />
+          {profileImage ? (
+            <Image
+              source={{ uri: profileImage }}
+              style={{ width: '100%', height: '100%' }}
+            />
+          ) : (
+            <FontAwesome name="user" size={50} color={gray[500]} />
+          )}
         </View>
         <Pressable
           style={{
@@ -218,7 +226,7 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
         >
           <Text
             style={{
-              fontFamily: 'Inter_400Regular',
+              fontFamily: 'PlusJakartaSans_400Regular',
               fontSize: 12,
               color: 'white',
             }}
@@ -249,7 +257,7 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
                 <Text
                   style={{
                     fontSize: 11,
-                    fontFamily: 'Inter_500Medium',
+                    fontFamily: 'PlusJakartaSans_500Medium',
                     marginLeft: 15,
                     marginTop: 2,
                     color:
@@ -284,7 +292,7 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
         render={({ field: { onChange, onBlur, value } }) => (
           <View>
             <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>first name</Text>
+              <Text style={styles.inputLabel}>name</Text>
               <TextInput
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -296,13 +304,13 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
               <Text
                 style={{
                   fontSize: 11,
-                  fontFamily: 'Inter_500Medium',
+                  fontFamily: 'PlusJakartaSans_500Medium',
                   marginLeft: 15,
                   marginTop: 2,
                   color: '#FF4B4B',
                 }}
               >
-                First name cannot be blank
+                Name cannot be blank
               </Text>
             )}
           </View>
@@ -609,25 +617,25 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   inputLabel: {
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     fontSize: 11,
     color: gray[400],
     marginBottom: 5,
   },
   textInputStyle: {
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     fontSize: 18,
     color: 'black',
   },
   sectionHeader: {
     fontSize: 20,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: 'black',
     marginTop: 10,
   },
   sectionSubheader: {
     fontSize: 14,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     color: gray[500],
   },
   choiceCard: {
@@ -645,7 +653,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   choiceText: {
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
     fontSize: 16,
     color: 'black',
   },

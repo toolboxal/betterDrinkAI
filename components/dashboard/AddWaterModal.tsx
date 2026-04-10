@@ -10,9 +10,9 @@ import {
   Modal,
   Pressable,
   StyleSheet,
-  Text,
   View,
 } from 'react-native'
+import Text from '../CustomText'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { z } from 'zod'
@@ -146,7 +146,7 @@ const AddWaterModal = ({
               <Text
                 style={{
                   fontSize: 35,
-                  fontFamily: 'Montserrat_700Bold',
+                  fontFamily: 'PlusJakartaSans_700Bold',
                   color: gray[300],
                 }}
               >
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: '#000',
     textAlign: 'left',
     lineHeight: 38,
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     backgroundColor: blue[50],
     borderRadius: 10,
     textAlign: 'center',
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     fontSize: 40,
     paddingHorizontal: 5,
     color: gray[950],
@@ -212,6 +212,6 @@ const styles = StyleSheet.create({
   logButtonText: {
     color: '#fff',
     fontSize: 18,
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
 })

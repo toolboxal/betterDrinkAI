@@ -1,6 +1,7 @@
 import { blue } from '@/constants/colors'
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import Text from './CustomText'
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     color: blue[950],
-    fontFamily: 'Montserrat_300Light',
+    fontFamily: 'PlusJakartaSans_300Light',
     textAlign: 'center',
     lineHeight: 24,
   },

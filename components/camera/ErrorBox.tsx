@@ -148,14 +148,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     fontSize: 18,
     color: gray[950],
     textAlign: 'center',
     marginBottom: 8,
   },
   reason: {
-    fontFamily: 'Montserrat_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     fontSize: 14,
     color: gray[600],
     textAlign: 'center',
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   suggestion: {
-    fontFamily: 'Montserrat_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     fontSize: 13,
     color: gray[700],
     textAlign: 'center',
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   btnText: {
     color: 'white',
     fontSize: 15,
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
   secondaryBtnText: {
     color: gray[950],

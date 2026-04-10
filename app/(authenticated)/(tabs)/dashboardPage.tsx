@@ -244,7 +244,7 @@ const DashboardPage = () => {
           <Text
             style={{
               fontSize: 10,
-              fontFamily: 'Inter_700Bold',
+              fontFamily: 'PlusJakartaSans_700Bold',
               color: primary[500],
               textAlign: 'center',
             }}
@@ -283,7 +283,7 @@ const DashboardPage = () => {
         >
           <Text
             style={{
-              fontFamily: 'Inter_700Bold',
+              fontFamily: 'PlusJakartaSans_700Bold',
               color: '#666',
               fontSize: 22,
             }}
@@ -340,7 +340,7 @@ const DashboardPage = () => {
                   style={{
                     color: 'white',
                     fontSize: 9,
-                    fontFamily: 'Inter_700Bold',
+                    fontFamily: 'PlusJakartaSans_700Bold',
                   }}
                 >
                   {unreadNotificationCount}
@@ -431,7 +431,7 @@ const DashboardPage = () => {
                 >
                   <Text
                     style={{
-                      fontFamily: 'Inter_700Bold',
+                      fontFamily: 'PlusJakartaSans_700Bold',
                       fontSize: 24,
                       color: healthColor,
                     }}
@@ -689,13 +689,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
-    fontFamily: 'Inter_900Black',
+    fontFamily: 'PlusJakartaSans_900Black',
     fontSize: 32,
     color: '#1a1a1a',
     marginBottom: 5,
   },
   subHeader: {
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     fontSize: 16,
     color: '#666',
     marginBottom: 24,
@@ -712,7 +712,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   sectionTitle: {
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     fontSize: 18,
     color: 'black',
     textTransform: 'uppercase',
@@ -730,7 +730,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cardTitle: {
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     fontSize: 18,
     color: gray[500],
     textTransform: 'uppercase',
@@ -739,18 +739,18 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   bigStat: {
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     fontSize: 36,
     color: gray[950],
     marginBottom: 3,
   },
   mediumStat: {
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     fontSize: 24,
     color: gray[950],
   },
   detailText: {
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     fontSize: 14,
     color: '#666',
     marginBottom: 10,
@@ -784,7 +784,7 @@ const styles = StyleSheet.create({
   },
   unit: {
     fontSize: 16,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: gray[500],
   },
   progressBarBg: {
@@ -803,7 +803,7 @@ const styles = StyleSheet.create({
   microText: {
     fontSize: 12,
     color: gray[500],
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
   },
   circularProgress: {
     width: '100%',
@@ -820,11 +820,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: gray[500],
     marginBottom: 4,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
   },
   financeValue: {
     fontSize: 18,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: '#333',
   },
   insightText: {
@@ -851,13 +851,13 @@ const styles = StyleSheet.create({
   rankName: {
     flex: 1,
     fontSize: 14,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: '#444',
   },
   rankPercent: {
     fontSize: 12,
     color: '#888',
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
   },
   drinkImageCard: {
     shadowColor: '#000',
@@ -881,12 +881,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   microMetricHeader: {
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     fontSize: 14,
     color: gray[300],
   },
   microMetricText: {
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     fontSize: 16,
     color: gray[950],
   },

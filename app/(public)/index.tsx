@@ -82,14 +82,17 @@ const LandingPage = () => {
         </Pressable>
         <View style={{ gap: 3, marginTop: 25 }}>
           <Text style={styles.footerTxt}>
-            By using Drink Better, you agree to our
+            By using Better Drink AI, you agree to our
           </Text>
           <View
             style={{ flexDirection: 'row', gap: 5, justifyContent: 'center' }}
           >
             <Pressable>
               <Text
-                style={[styles.footerTxt, { fontFamily: 'Inter_600SemiBold' }]}
+                style={[
+                  styles.footerTxt,
+                  { fontFamily: 'PlusJakartaSans_600SemiBold' },
+                ]}
               >
                 Terms of Service
               </Text>
@@ -97,7 +100,10 @@ const LandingPage = () => {
             <Text style={styles.footerTxt}>and</Text>
             <Pressable>
               <Text
-                style={[styles.footerTxt, { fontFamily: 'Inter_600SemiBold' }]}
+                style={[
+                  styles.footerTxt,
+                  { fontFamily: 'PlusJakartaSans_600SemiBold' },
+                ]}
               >
                 Privacy Policy
               </Text>
@@ -125,12 +131,12 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: 20,
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     color: 'white',
   },
   headerTitle: {
     fontSize: 70,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_500Medium',
     textAlign: 'left',
     color: 'black',
     letterSpacing: -2,
@@ -138,13 +144,13 @@ const styles = StyleSheet.create({
   },
   headerSubTxt: {
     fontSize: 18,
-    fontFamily: 'Inter_300Light',
+    fontFamily: 'PlusJakartaSans_300Light',
     textAlign: 'left',
     color: gray[500],
   },
   subTxt: {
     fontSize: 20,
-    fontFamily: 'Inter_300Light',
+    fontFamily: 'PlusJakartaSans_300Light',
     textAlign: 'center',
     color: gray[500],
     marginVertical: 10,
@@ -152,7 +158,7 @@ const styles = StyleSheet.create({
   },
   footerTxt: {
     fontSize: 13,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     textAlign: 'center',
     color: gray[500],
   },

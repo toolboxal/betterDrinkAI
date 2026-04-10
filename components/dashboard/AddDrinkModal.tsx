@@ -3,8 +3,9 @@ import { blue, gray } from '@/constants/colors'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { Alert, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Alert, Modal, Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import Text from '../CustomText'
 
 const AddDrinkModal = ({
   visible,
@@ -117,13 +118,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: '#000',
     textAlign: 'center',
   },
   subtitle: {
     fontSize: 14,
-    fontFamily: 'Montserrat_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     color: '#666',
     textAlign: 'center',
     marginTop: 4,
@@ -140,6 +141,6 @@ const styles = StyleSheet.create({
   closeButtonText: {
     color: '#999',
     fontSize: 16,
-    fontFamily: 'Montserrat_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
 })

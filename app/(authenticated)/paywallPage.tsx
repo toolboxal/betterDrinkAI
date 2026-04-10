@@ -104,7 +104,7 @@ const PaywallPage = () => {
       <View style={{ marginTop: 15, marginBottom: 10, gap: 10 }}>
         <Text
           style={styles.benefitsText}
-        >{`Drink Better AI that guides you to your goals.`}</Text>
+        >{`Better Drink AI that guides you to your goals.`}</Text>
         <Text
           style={styles.benefitsText}
         >{`7 days analysis of your liquid choices.`}</Text>
@@ -237,7 +237,7 @@ const PaywallPage = () => {
           <Text
             style={{
               color: gray[500],
-              fontFamily: 'Inter_500Medium',
+              fontFamily: 'PlusJakartaSans_500Medium',
               fontSize: 14,
             }}
           >
@@ -260,7 +260,7 @@ const PaywallPage = () => {
           <Text
             style={{
               color: gray[500],
-              fontFamily: 'Inter_500Medium',
+              fontFamily: 'PlusJakartaSans_500Medium',
               fontSize: 14,
             }}
           >
@@ -271,7 +271,7 @@ const PaywallPage = () => {
           <Text
             style={{
               color: gray[500],
-              fontFamily: 'Inter_500Medium',
+              fontFamily: 'PlusJakartaSans_500Medium',
               fontSize: 14,
             }}
           >
@@ -299,7 +299,7 @@ const PaywallPage = () => {
         <Text
           style={{
             color: 'white',
-            fontFamily: 'Inter_700Bold',
+            fontFamily: 'PlusJakartaSans_700Bold',
             fontSize: 18,
           }}
         >
@@ -319,13 +319,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   title: {
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
     fontSize: 32,
     color: primary[700],
     lineHeight: 42,
   },
   benefitsText: {
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     fontSize: 16,
     color: gray[700],
     marginVertical: 5,
@@ -343,13 +343,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   featureHeading: {
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
     fontSize: 16,
     color: gray[700],
     marginBottom: 12,
   },
   featurePrice: {
-    fontFamily: 'Inter_300Light',
+    fontFamily: 'PlusJakartaSans_300Light',
     fontSize: 26,
     color: primary[700],
     letterSpacing: 0.5,
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   saveText: {
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     fontSize: 14,
     color: primary[950],
   },

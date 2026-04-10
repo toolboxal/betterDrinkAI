@@ -20,7 +20,7 @@ import {
   View,
 } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import ViewShot, { captureRef } from 'react-native-view-shot'
+import { captureRef } from 'react-native-view-shot'
 
 const DrinkDetailsPage = () => {
   const { top } = useSafeAreaInsets()
@@ -141,7 +141,7 @@ const DrinkDetailsPage = () => {
           headerTransparent: true,
           headerTitle: '',
           headerBackTitleStyle: {
-            fontFamily: 'Inter_700Bold',
+            fontFamily: 'PlusJakartaSans_700Bold',
           },
           headerBackTitle: 'Back',
         }}
@@ -232,7 +232,7 @@ const DrinkDetailsPage = () => {
                 <Text
                   style={{
                     fontSize: 25,
-                    fontFamily: 'Inter_700Bold',
+                    fontFamily: 'PlusJakartaSans_700Bold',
                     color: primary[500],
                     textAlign: 'center',
                   }}
@@ -362,7 +362,7 @@ const DrinkDetailsPage = () => {
           <Text
             style={{
               textAlign: 'center',
-              fontFamily: 'Inter_700Bold',
+              fontFamily: 'PlusJakartaSans_700Bold',
               color: 'white',
               fontSize: 18,
             }}
@@ -380,13 +380,11 @@ const DrinkDetailsPage = () => {
           top: 0,
         }}
       >
-        <ViewShot
-          ref={viewShotRef}
-          options={{ format: 'png', quality: 1 }}
-          style={styles.shareCard}
-        >
+        <View ref={viewShotRef} collapsable={false} style={styles.shareCard}>
           <View style={styles.shareBrandingContainer}>
-            <Text style={styles.shareBrandingText}>DRINKBETTER ANALYSIS</Text>
+            <Text style={styles.shareBrandingText}>
+              BETTER DRINK AI ANALYSIS
+            </Text>
           </View>
 
           <View style={[styles.shareHeroContainer]}>
@@ -460,10 +458,10 @@ const DrinkDetailsPage = () => {
 
           <View style={styles.shareFooter}>
             <Text style={styles.shareFooterText}>
-              JOIN THE LAB @ DRINKBETTER
+              JOIN THE LAB @ BETTER DRINK AI
             </Text>
           </View>
-        </ViewShot>
+        </View>
       </View>
     </View>
   )
@@ -513,7 +511,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     marginBottom: 10,
   },
   btn: {
@@ -529,7 +527,7 @@ const styles = StyleSheet.create({
   btnText: {
     color: 'black',
     fontSize: 18,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
   shadowImageWrapper: {
     width: 250,
@@ -570,7 +568,7 @@ const styles = StyleSheet.create({
   drinkTitle: {
     color: gray[950],
     fontSize: 22,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     lineHeight: 24,
   },
   socialHookContainer: {
@@ -585,7 +583,7 @@ const styles = StyleSheet.create({
   socialHook: {
     color: gray[950],
     fontSize: 18,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     lineHeight: 24,
     textAlign: 'left',
   },
@@ -606,19 +604,19 @@ const styles = StyleSheet.create({
   healthScoreText: {
     color: 'white',
     fontSize: 32,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
   healthReasonText: {
     flex: 1, // THIS FIXES THE WRAPPING
     color: gray[500],
     fontSize: 18,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     lineHeight: 24,
   },
   cardTitle: {
     color: gray[500],
     fontSize: 16,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
   breakDownContainer: {
     flexDirection: 'column',
@@ -628,13 +626,13 @@ const styles = StyleSheet.create({
   metricHeader: {
     color: gray[500],
     fontSize: 15,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     lineHeight: 24,
   },
   metricText: {
     color: gray[950],
     fontSize: 15,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     lineHeight: 24,
     textAlign: 'center',
   },
@@ -654,7 +652,7 @@ const styles = StyleSheet.create({
   },
   shareBrandingText: {
     fontSize: 14,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: 'white',
     letterSpacing: 2,
   },
@@ -692,11 +690,11 @@ const styles = StyleSheet.create({
   },
   shareScoreText: {
     fontSize: 28,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
   shareScoreLabel: {
     fontSize: 10,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: gray[400],
     marginTop: -4,
   },
@@ -707,13 +705,13 @@ const styles = StyleSheet.create({
   },
   shareDrinkName: {
     fontSize: 28,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: gray[950],
     textAlign: 'center',
   },
   shareSocialHook: {
     fontSize: 16,
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     color: gray[500],
     fontStyle: 'italic',
     marginTop: 5,
@@ -733,12 +731,12 @@ const styles = StyleSheet.create({
   },
   shareMetricValue: {
     fontSize: 20,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: gray[950],
   },
   shareMetricLabel: {
     fontSize: 10,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: gray[400],
     letterSpacing: 1,
   },
@@ -752,7 +750,7 @@ const styles = StyleSheet.create({
   },
   shareFooterText: {
     fontSize: 12,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: gray[300],
     letterSpacing: 1,
   },

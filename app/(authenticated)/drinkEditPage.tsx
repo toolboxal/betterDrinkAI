@@ -43,7 +43,7 @@ const NumericInput = ({
 
   useEffect(() => {
     // If the incoming value matches what we last emitted, don't update text
-    // This preserves intermediate states like "1." or "0.0" while typing
+    // This preserves PlusJakartaSansmediate states like "1." or "0.0" while typing
     if (value === lastEmittedValue.current) return
 
     setText(value?.toString() ?? '')
@@ -239,7 +239,7 @@ const DrinkEditPage = () => {
         <Text
           style={{
             fontSize: 24,
-            fontFamily: 'Inter_700Bold',
+            fontFamily: 'PlusJakartaSans_700Bold',
             textAlign: 'center',
             marginBottom: 10,
             color: 'black',
@@ -250,7 +250,7 @@ const DrinkEditPage = () => {
         <Text
           style={{
             fontSize: 16,
-            fontFamily: 'Inter_400Regular',
+            fontFamily: 'PlusJakartaSans_400Regular',
             textAlign: 'center',
             color: gray[600],
             lineHeight: 22,
@@ -273,7 +273,7 @@ const DrinkEditPage = () => {
             <Text
               style={{
                 color: 'black',
-                fontFamily: 'Inter_700Bold',
+                fontFamily: 'PlusJakartaSans_700Bold',
                 fontSize: 16,
                 textAlign: 'center',
               }}
@@ -294,12 +294,12 @@ const DrinkEditPage = () => {
               <Text
                 style={{
                   color: 'white',
-                  fontFamily: 'Inter_700Bold',
+                  fontFamily: 'PlusJakartaSans_700Bold',
                   fontSize: 16,
                   textAlign: 'center',
                 }}
               >
-                Go Premium
+                Go Pro
               </Text>
             </Pressable>
           </LinearGradient>
@@ -351,7 +351,7 @@ const DrinkEditPage = () => {
               </View>
             )}
             <LinearGradient
-              colors={['transparent', primary[50]]}
+              colors={['transparent', 'rgba(0,0,0,0.25)']}
               style={styles.headerGradient}
             />
             <Pressable
@@ -627,7 +627,7 @@ const DrinkEditPage = () => {
                   <View style={{ flex: 1, marginLeft: 12 }}>
                     <Text
                       style={{
-                        fontFamily: 'Inter_400Regular',
+                        fontFamily: 'PlusJakartaSans_400Regular',
                         color: gray[600],
                         fontSize: 14,
                       }}
@@ -653,7 +653,7 @@ const DrinkEditPage = () => {
                 >
                   <Text
                     style={{
-                      fontFamily: 'Inter_400Regular',
+                      fontFamily: 'PlusJakartaSans_400Regular',
                       color: '#000',
                       fontSize: 16,
                     }}
@@ -728,7 +728,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: 150,
+    height: '50%',
   },
   backButton: {
     position: 'absolute',
@@ -750,7 +750,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: 'white',
     fontSize: 32,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     textShadowColor: 'rgba(0,0,0,0.3)',
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 4,
@@ -758,7 +758,7 @@ const styles = StyleSheet.create({
   headerSubtitle: {
     color: 'rgba(255,255,255,0.9)',
     fontSize: 18,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     marginTop: 4,
   },
   contentContainer: {
@@ -784,7 +784,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: 18,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: '#000',
     marginBottom: 16,
   },
@@ -795,7 +795,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: gray[600],
     marginBottom: 8,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
   },
   input: {
     backgroundColor: '#F9F9F9',
@@ -804,7 +804,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 12,
     fontSize: 16,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     color: '#000',
   },
   row: {
@@ -831,11 +831,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: gray[600],
     marginBottom: 4,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
   },
   statInput: {
     fontSize: 16,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: '#000',
     borderBottomWidth: 1,
     borderBottomColor: '#E5E5EA',
@@ -854,7 +854,7 @@ const styles = StyleSheet.create({
   },
   switchLabel: {
     fontSize: 16,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     color: '#000',
   },
   scoreContainer: {
@@ -874,7 +874,7 @@ const styles = StyleSheet.create({
   },
   scoreBadgeText: {
     color: 'white',
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     fontSize: 16,
   },
   textArea: {
@@ -906,6 +906,6 @@ const styles = StyleSheet.create({
   saveButtonText: {
     color: 'white',
     fontSize: 18,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
 })

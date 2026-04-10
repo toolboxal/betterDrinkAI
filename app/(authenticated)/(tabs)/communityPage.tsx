@@ -97,7 +97,7 @@ const CommunityPage = () => {
               style={{
                 color: 'white',
                 fontSize: 9,
-                fontFamily: 'Inter_700Bold',
+                fontFamily: 'PlusJakartaSans_700Bold',
               }}
             >
               {unreadNotificationCount}
@@ -147,17 +147,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 34,
     color: 'black',
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
   },
   subtitle: {
     fontSize: 16,
     color: 'black',
     marginTop: 4,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
   },
   sectionHeader: {
     fontSize: 20,
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
     color: 'black',
     marginTop: 10,
     marginBottom: 16,
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
   },
   roomName: {
     fontSize: 18,
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
     color: 'black',
     marginBottom: 4,
   },
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: gray[600],
     lineHeight: 18,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
   },
   emptyContainer: {
     alignItems: 'center',

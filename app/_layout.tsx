@@ -6,18 +6,33 @@ import { StrictMode, useEffect } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
 import { SubscriptionProvider } from '@/components/SubscriptionProvider'
 import Purchases, { LOG_LEVEL } from 'react-native-purchases'
+// import {
+//   Inter_100Thin,
+//   Inter_200ExtraLight,
+//   Inter_300Light,
+//   Inter_400Regular,
+//   Inter_500Medium,
+//   Inter_600SemiBold,
+//   Inter_700Bold,
+//   Inter_800ExtraBold,
+//   Inter_900Black,
+//   useFonts,
+// } from '@expo-google-fonts/inter'
 import {
-  Inter_100Thin,
-  Inter_200ExtraLight,
-  Inter_300Light,
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_800ExtraBold,
-  Inter_900Black,
+  PlusJakartaSans_300Light,
+  PlusJakartaSans_300Light_Italic,
+  PlusJakartaSans_400Regular,
+  PlusJakartaSans_400Regular_Italic,
+  PlusJakartaSans_500Medium,
+  PlusJakartaSans_500Medium_Italic,
+  PlusJakartaSans_600SemiBold,
+  PlusJakartaSans_600SemiBold_Italic,
+  PlusJakartaSans_700Bold,
+  PlusJakartaSans_700Bold_Italic,
+  PlusJakartaSans_800ExtraBold,
+  PlusJakartaSans_800ExtraBold_Italic,
   useFonts,
-} from '@expo-google-fonts/inter'
+} from '@expo-google-fonts/plus-jakarta-sans'
 import {
   Merriweather_300Light,
   Merriweather_300Light_Italic,
@@ -45,15 +60,18 @@ function InitialLayout() {
   const router = useRouter()
 
   const [loaded, error] = useFonts({
-    Inter_100Thin,
-    Inter_200ExtraLight,
-    Inter_300Light,
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold,
-    Inter_900Black,
+    PlusJakartaSans_300Light,
+    PlusJakartaSans_300Light_Italic,
+    PlusJakartaSans_400Regular,
+    PlusJakartaSans_400Regular_Italic,
+    PlusJakartaSans_500Medium,
+    PlusJakartaSans_500Medium_Italic,
+    PlusJakartaSans_600SemiBold,
+    PlusJakartaSans_600SemiBold_Italic,
+    PlusJakartaSans_700Bold,
+    PlusJakartaSans_700Bold_Italic,
+    PlusJakartaSans_800ExtraBold,
+    PlusJakartaSans_800ExtraBold_Italic,
     Merriweather_300Light,
     Merriweather_300Light_Italic,
     Merriweather_400Regular,
@@ -70,8 +88,12 @@ function InitialLayout() {
     const inAuthGroup = segments[0] === '(authenticated)'
 
     if (isAuthenticated && !inAuthGroup) {
-      // Redirect authenticated users to the home page
-      router.replace('/(authenticated)')
+      // If they are authenticating BUT somehow missing onboarding, let them finish it
+      if (segments[segments.length - 1] === 'onboardingPage') {
+        return
+      }
+      // Redirect authenticated users to the processing page first
+      router.replace('/(authenticated)/onboardingProcessing')
     } else if (!isAuthenticated && inAuthGroup) {
       // Redirect unauthenticated users to the login/public page
       router.replace('/(public)')

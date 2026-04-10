@@ -24,7 +24,7 @@ const NotificationPage = () => {
         <View style={{ flex: 1, backgroundColor: 'white' }}>
           <Text
             style={{
-              fontFamily: 'Inter_500Medium',
+              fontFamily: 'PlusJakartaSans_500Medium',
               fontSize: 20,
               paddingLeft: 10,
               marginTop: 10,
@@ -53,11 +53,21 @@ const NotificationPage = () => {
               <FontAwesome name="user-o" size={24} color="black" />
             )}
             <View style={{ flexDirection: 'column', gap: 3, width: '70%' }}>
-              <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 14 }}>
+              <Text
+                style={{
+                  fontFamily: 'PlusJakartaSans_400Regular',
+                  fontSize: 14,
+                }}
+              >
                 {`${notification.actor?.username} says hi 👋`}
               </Text>
               <View>
-                <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 11 }}>
+                <Text
+                  style={{
+                    fontFamily: 'PlusJakartaSans_600SemiBold',
+                    fontSize: 11,
+                  }}
+                >
                   {`${notification.room?.name} room`}
                 </Text>
               </View>
@@ -95,7 +105,12 @@ const NotificationPage = () => {
               <FontAwesome name="user-o" size={24} color="black" />
             )}
             <View style={{ flexDirection: 'column', gap: 5, width: '70%' }}>
-              <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 14 }}>
+              <Text
+                style={{
+                  fontFamily: 'PlusJakartaSans_400Regular',
+                  fontSize: 14,
+                }}
+              >
                 {notification.type === 'LIKE'
                   ? `${notification.actor?.username} liked your post`
                   : notification.type === 'CHEERS'
@@ -105,7 +120,7 @@ const NotificationPage = () => {
               <View>
                 <Text
                   style={{
-                    fontFamily: 'Inter_400Regular',
+                    fontFamily: 'PlusJakartaSans_400Regular',
                     fontSize: 12,
                     color: 'black',
                   }}
@@ -115,7 +130,7 @@ const NotificationPage = () => {
                 <View>
                   <Text
                     style={{
-                      fontFamily: 'Inter_600SemiBold',
+                      fontFamily: 'PlusJakartaSans_600SemiBold',
                       fontSize: 11,
                     }}
                   >
@@ -153,7 +168,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 16,
     marginTop: 16,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
   notificationContainer: {
     flexDirection: 'row',

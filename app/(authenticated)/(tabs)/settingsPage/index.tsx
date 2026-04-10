@@ -1,5 +1,7 @@
+import Text from '@/components/CustomText'
 import { gray } from '@/constants/colors'
 import { api } from '@/convex/_generated/api'
+import { authClient } from '@/lib/auth-client'
 import {
   checkHealthPermissions,
   requestHealthPermissions,
@@ -11,8 +13,6 @@ import { useRouter } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { Alert, Linking, Pressable, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { authClient } from '@/lib/auth-client'
-import Text from '@/components/CustomText'
 
 const SettingsPage = () => {
   const deleteAccount = useMutation(api.users.deleteAccount)
@@ -50,7 +50,7 @@ const SettingsPage = () => {
     } else {
       Alert.alert(
         'Action Required',
-        'Your phone requires manual approval. Please go to your iPhone Settings > Privacy & Security > Health > Drink Better, and turn all permissions ON.',
+        'Your phone requires manual approval. Please go to your iPhone Settings > Privacy & Security > Health > Better Drink AI, and turn all permissions ON.',
         [
           { text: 'Cancel', style: 'cancel' },
           {
@@ -97,7 +97,12 @@ const SettingsPage = () => {
       <View style={styles.container}>
         <Pressable
           style={styles.subContainer}
-          onPress={() => router.push(`/settingsPage/user_profile`)}
+          onPress={() =>
+            router.push({
+              pathname: '/(authenticated)/(tabs)/settingsPage/[slug]',
+              params: { slug: 'user_profile' },
+            })
+          }
         >
           <Text style={styles.contentText}>Your Profile</Text>
           <Entypo name="chevron-small-right" size={24} color="black" />
@@ -115,7 +120,7 @@ const SettingsPage = () => {
               <Text
                 style={{
                   fontSize: 11,
-                  fontFamily: 'Inter_400Regular',
+                  fontFamily: 'PlusJakartaSans_400Regular',
                   color: 'white',
                 }}
               >
@@ -131,9 +136,14 @@ const SettingsPage = () => {
         </Pressable>
         <Pressable
           style={styles.subContainer}
-          onPress={() => router.push(`/settingsPage/change_goal`)}
+          onPress={() =>
+            router.push({
+              pathname: '/(authenticated)/(tabs)/settingsPage/[slug]',
+              params: { slug: 'change_goal' },
+            })
+          }
         >
-          <Text style={styles.contentText}>Change Goal</Text>
+          <Text style={styles.contentText}>Change Goal or Focus</Text>
           <Entypo name="chevron-small-right" size={24} color="black" />
         </Pressable>
 
@@ -178,13 +188,13 @@ export default SettingsPage
 const styles = StyleSheet.create({
   headerText: {
     fontSize: 24,
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
     textAlign: 'center',
     marginVertical: 15,
   },
   subHeader: {
     fontSize: 20,
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
     marginVertical: 10,
   },
   container: {
@@ -205,6 +215,6 @@ const styles = StyleSheet.create({
   },
   contentText: {
     fontSize: 16,
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
   },
 })

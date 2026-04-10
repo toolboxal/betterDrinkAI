@@ -4,12 +4,14 @@ import { gray, primary } from '@/constants/colors'
 import { api } from '@/convex/_generated/api'
 import { authClient } from '@/lib/auth-client'
 import { fetchHealthData, requestHealthPermissions } from '@/lib/healthService'
+import * as SecureStore from 'expo-secure-store'
 import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { Picker } from '@react-native-picker/picker'
 import { useMutation, useQuery } from 'convex/react'
 import * as AppleAuthentication from 'expo-apple-authentication'
 import * as Linking from 'expo-linking'
 import { useRouter } from 'expo-router'
+import { useConvexAuth } from 'convex/react'
 import { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
@@ -219,6 +221,7 @@ const TOTAL_STEPS = 10
 const OnboardingPage = () => {
   const { top, bottom } = useSafeAreaInsets()
   const router = useRouter()
+  const { isAuthenticated } = useConvexAuth()
   const updateOnboarding = useMutation(api.users.updateOnboardingData)
 
   const [currentPage, setCurrentPage] = useState(0)
@@ -314,11 +317,22 @@ const OnboardingPage = () => {
     debouncedUsername.length >= 3 ? { username: debouncedUsername } : 'skip',
   )
 
-  const goToNextPage = () => {
+  const goToNextPage = async () => {
     if (currentPage === 1 && didSyncHealth) {
       setCurrentPage(5)
       return
     }
+
+    // If they finish paywall (page 8) and are ALREADY authenticated, directly process!
+    if (currentPage === 8 && isAuthenticated) {
+      await SecureStore.setItemAsync(
+        'pendingOnboardingData',
+        JSON.stringify(onboardingData),
+      )
+      router.replace('/(authenticated)/onboardingProcessing')
+      return
+    }
+
     if (currentPage < TOTAL_STEPS - 1) {
       setCurrentPage((prev) => prev + 1)
     }
@@ -337,6 +351,12 @@ const OnboardingPage = () => {
   }
 
   const handleLogin = async (typeofOauth: 'google' | 'apple') => {
+    // Save onboarding data for the processing screen to use
+    await SecureStore.setItemAsync(
+      'pendingOnboardingData',
+      JSON.stringify(onboardingData),
+    )
+
     if (typeofOauth === 'apple' && Platform.OS === 'ios') {
       try {
         const credential = await AppleAuthentication.signInAsync({
@@ -437,7 +457,7 @@ const OnboardingPage = () => {
                         <Text
                           style={{
                             fontSize: 12,
-                            fontFamily: 'Inter_500Medium',
+                            fontFamily: 'PlusJakartaSans_500Medium',
                             marginTop: -15,
                             marginBottom: 15,
                             color:
@@ -936,7 +956,7 @@ const OnboardingPage = () => {
                   <View style={{ marginBottom: 20, gap: 10 }}>
                     <Text
                       style={styles.benefitsText}
-                    >{`Drink Better AI that guides you to your goals.`}</Text>
+                    >{`Better Drink AI that guides you to your goals.`}</Text>
                     <Text
                       style={styles.benefitsText}
                     >{`7 days analysis of your liquid choices.`}</Text>
@@ -1110,7 +1130,7 @@ const OnboardingPage = () => {
                       <Text
                         style={{
                           color: gray[500],
-                          fontFamily: 'Inter_500Medium',
+                          fontFamily: 'PlusJakartaSans_500Medium',
                           fontSize: 14,
                         }}
                       >
@@ -1133,7 +1153,7 @@ const OnboardingPage = () => {
                       <Text
                         style={{
                           color: gray[500],
-                          fontFamily: 'Inter_500Medium',
+                          fontFamily: 'PlusJakartaSans_500Medium',
                           fontSize: 14,
                         }}
                       >
@@ -1144,7 +1164,7 @@ const OnboardingPage = () => {
                       <Text
                         style={{
                           color: gray[500],
-                          fontFamily: 'Inter_500Medium',
+                          fontFamily: 'PlusJakartaSans_500Medium',
                           fontSize: 14,
                         }}
                       >
@@ -1342,14 +1362,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: '#1C1C1E',
     marginBottom: 8,
     lineHeight: 40,
   },
   subtitle: {
     fontSize: 16,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     color: gray[500],
     marginBottom: 32,
     lineHeight: 24,
@@ -1365,13 +1385,13 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 12,
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     color: gray[400],
     marginBottom: 5,
   },
   inputElement: {
     fontSize: 20,
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     color: '#1C1C1E',
     // backgroundColor: 'yellow',
   },
@@ -1392,7 +1412,7 @@ const styles = StyleSheet.create({
   },
   appleHealthBtnText: {
     fontSize: 17,
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
   },
   manualInputBtn: {
     alignItems: 'center',
@@ -1401,7 +1421,7 @@ const styles = StyleSheet.create({
   },
   manualInputBtnText: {
     fontSize: 15,
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     color: gray[500],
     textDecorationLine: 'underline',
   },
@@ -1417,7 +1437,7 @@ const styles = StyleSheet.create({
   infoBoxText: {
     flex: 1,
     fontSize: 13,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     color: gray[600],
     lineHeight: 18,
   },
@@ -1444,7 +1464,7 @@ const styles = StyleSheet.create({
   },
   pickerLabel: {
     fontSize: 14,
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
     color: '#8E8E93',
     textAlign: 'center',
     marginBottom: 8,
@@ -1454,7 +1474,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   pickerItem: {
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
   },
   genderRow: {
     flexDirection: 'row',
@@ -1477,7 +1497,7 @@ const styles = StyleSheet.create({
   },
   genderCardText: {
     fontSize: 18,
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
     color: '#1C1C1E',
   },
   genderCardTextActive: {
@@ -1521,13 +1541,13 @@ const styles = StyleSheet.create({
   },
   selectCardTitle: {
     fontSize: 16,
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
     color: '#1C1C1E',
     marginBottom: 4,
   },
   selectCardDesc: {
     fontSize: 13,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     color: '#8E8E93',
   },
   radioIndicator: {
@@ -1590,7 +1610,7 @@ const styles = StyleSheet.create({
   primaryBtnText: {
     color: '#FFFFFF',
     fontSize: 18,
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
   },
   proBadge: {
     flexDirection: 'row',
@@ -1604,7 +1624,7 @@ const styles = StyleSheet.create({
   },
   proBadgeText: {
     color: '#E6A800',
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     fontSize: 12,
     letterSpacing: 1,
   },
@@ -1630,7 +1650,7 @@ const styles = StyleSheet.create({
   },
   featureRowText: {
     fontSize: 16,
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     color: '#1C1C1E',
   },
   priceContainer: {
@@ -1640,18 +1660,18 @@ const styles = StyleSheet.create({
   },
   priceAmount: {
     fontSize: 48,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     color: '#1C1C1E',
   },
   pricePeriod: {
     fontSize: 18,
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     color: '#8E8E93',
     marginLeft: 4,
   },
   priceGuarantee: {
     fontSize: 14,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     color: '#8E8E93',
   },
   skipBtn: {
@@ -1661,7 +1681,7 @@ const styles = StyleSheet.create({
   },
   skipBtnText: {
     fontSize: 15,
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     color: '#8E8E93',
   },
   securityIconBox: {
@@ -1693,18 +1713,18 @@ const styles = StyleSheet.create({
   },
   ssoBtnText: {
     fontSize: 18,
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
   },
   tosText: {
     marginTop: 32,
     fontSize: 13,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: 'PlusJakartaSans_400Regular',
     color: '#8E8E93',
     textAlign: 'center',
     lineHeight: 20,
   },
   benefitsText: {
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     fontSize: 16,
     color: gray[700],
     marginVertical: 5,
@@ -1722,13 +1742,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   paywallFeatureHeading: {
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
     fontSize: 16,
     color: gray[700],
     marginBottom: 12,
   },
   paywallFeaturePrice: {
-    fontFamily: 'Inter_300Light',
+    fontFamily: 'PlusJakartaSans_300Light',
     fontSize: 26,
     color: primary[700],
     letterSpacing: 0.5,
@@ -1745,7 +1765,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   paywallSaveText: {
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     fontSize: 14,
     color: primary[950],
   },

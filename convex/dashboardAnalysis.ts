@@ -163,8 +163,13 @@ export const generateDailyInsight = action({
     dayKey: v.string(),
     timezoneOffset: v.number(),
     steps: v.optional(v.number()),
+    isPro: v.boolean(),
   },
   handler: async (ctx, args): Promise<DailyAnalysis> => {
+    if (!args.isPro) {
+      throw new Error('Upgrade to Pro to generate daily insights')
+    }
+
     const user = await ctx.runQuery(api.users.current)
     if (!user) throw new Error('User not found')
 
@@ -229,7 +234,7 @@ export const generateDailyInsight = action({
               ? 'Active & Clean! 🏃‍♂️'
               : 'Quiet Day? 🧊',
           content: isNewUser
-            ? `Welcome to your personal Drink Better Lab! I'm your AI health coach. Snap a photo of your first drink today to start your journey toward your goal of ${userMotivation}.`
+            ? `Welcome to your personal Better Drink AI Lab! I'm your AI health coach. Snap a photo of your first drink today to start your journey toward your goal of ${userMotivation}.`
             : hasSteps
               ? `Hey ${userName}, you've hit ${args.steps?.toLocaleString()} steps but haven't logged any drinks. Snap a photo of what you're sipping to complete your report!`
               : isEarlyMorning

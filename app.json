@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "betterDrinkAI",
+    "name": "BetterDrinkAI",
     "slug": "betterDrinkAI",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -61,10 +61,7 @@
           "photosPermission": "Allow $(PRODUCT_NAME) to access your photo library so you can select and track previous drink photos.",
           "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos of your tracked drinks directly to your camera roll.",
           "isAccessMediaLocationEnabled": true,
-          "granularPermissions": [
-            "audio",
-            "photo"
-          ]
+          "granularPermissions": ["audio", "photo"]
         }
       ],
       "expo-font",

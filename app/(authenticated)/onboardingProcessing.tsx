@@ -29,12 +29,23 @@ const OnboardingProcessing = () => {
           'pendingOnboardingData',
         )
         if (!savedData) {
-          // If no data, just go home
+          // If no data, check if they legitimately completed onboarding before
+          if (user.onboardingCompleted !== true) {
+            router.replace('/(public)/onboardingPage')
+            return
+          }
+          // Existing user who already onboarded
           router.replace('/(authenticated)/(tabs)')
           return
         }
 
         const onboardingData = JSON.parse(savedData)
+        if (onboardingData.birthDate) {
+          onboardingData.birthDate = new Date(
+            onboardingData.birthDate,
+          ).getTime()
+        }
+
         setStatus('Almost ready...')
 
         // 3. Call mutation
@@ -44,11 +55,11 @@ const OnboardingProcessing = () => {
 
         // 4. Clear storage and redirect
         await SecureStore.deleteItemAsync('pendingOnboardingData')
-        setStatus('Welcome to Defizz!')
+        setStatus('Welcome to Better Drink AI!')
 
         setTimeout(() => {
           router.replace('/(authenticated)/(tabs)')
-        }, 1000)
+        }, 3000)
       } catch (err: any) {
         console.error('Processing error:', err)
         setError('Something went wrong. Please try again.')
@@ -110,7 +121,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#FF4B4B',
     textAlign: 'center',
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
   },
 })
 
