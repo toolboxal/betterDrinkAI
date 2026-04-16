@@ -7,6 +7,7 @@ import { components } from './_generated/api'
 import { DataModel } from './_generated/dataModel'
 import { action, query } from './_generated/server'
 import authConfig from './auth.config'
+import { performUserCleanup } from './users'
 
 import { internal } from './_generated/api'
 
@@ -64,7 +65,7 @@ export const authComponent: ReturnType<typeof createClient<DataModel>> =
             )
             .unique()
           if (existing) {
-            await ctx.db.delete(existing._id)
+            await performUserCleanup(ctx as any, existing._id)
           }
         },
       },

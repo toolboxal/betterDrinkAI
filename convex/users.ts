@@ -1,6 +1,7 @@
 import { v } from 'convex/values'
 import { internal } from './_generated/api'
-import { mutation, query, QueryCtx } from './_generated/server'
+import { internalMutation, mutation, query, QueryCtx, MutationCtx } from './_generated/server'
+import { Id } from './_generated/dataModel'
 
 export async function getCurrentUser(ctx: QueryCtx) {
   const identity = await ctx.auth.getUserIdentity()
@@ -86,15 +87,19 @@ export const current = query({
   },
 })
 
-export const deleteAccount = mutation({
-  args: {},
-  handler: async (ctx) => {
-    const user = await getCurrentUserOrThrow(ctx)
+export const cleanupUserAccount = internalMutation({
+  args: { userId: v.id('users') },
+  handler: async (ctx, args) => {
+    await performUserCleanup(ctx, args.userId)
+  },
+})
+
+export async function performUserCleanup(ctx: MutationCtx, userId: Id<'users'>) {
 
     // 1. Delete drinks and their images
     const drinks = await ctx.db
       .query('drinks')
-      .withIndex('byUserId', (q) => q.eq('userId', user._id))
+      .withIndex('byUserId', (q) => q.eq('userId', userId))
       .collect()
     for (const drink of drinks) {
       if (drink.imageId) {
@@ -110,7 +115,7 @@ export const deleteAccount = mutation({
     // 2. Delete daily insights
     const insights = await ctx.db
       .query('daily_insights')
-      .withIndex('byUserId', (q) => q.eq('userId', user._id))
+      .withIndex('byUserId', (q) => q.eq('userId', userId))
       .collect()
     for (const insight of insights) {
       await ctx.db.delete(insight._id)
@@ -119,7 +124,7 @@ export const deleteAccount = mutation({
     // 3. Delete room memberships
     const memberships = await ctx.db
       .query('room_members')
-      .withIndex('byUser', (q) => q.eq('userId', user._id))
+      .withIndex('byUser', (q) => q.eq('userId', userId))
       .collect()
     for (const membership of memberships) {
       await ctx.db.delete(membership._id)
@@ -128,7 +133,7 @@ export const deleteAccount = mutation({
     // 4. Delete room activities
     const activities = await ctx.db
       .query('room_activities')
-      .withIndex('byUser', (q) => q.eq('userId', user._id))
+      .withIndex('byUser', (q) => q.eq('userId', userId))
       .collect()
     for (const activity of activities) {
       await ctx.db.delete(activity._id)
@@ -137,7 +142,7 @@ export const deleteAccount = mutation({
     // 5. Delete reactions
     const reactions = await ctx.db
       .query('reactions')
-      .withIndex('byUser', (q) => q.eq('userId', user._id))
+      .withIndex('byUser', (q) => q.eq('userId', userId))
       .collect()
     for (const reaction of reactions) {
       await ctx.db.delete(reaction._id)
@@ -146,7 +151,7 @@ export const deleteAccount = mutation({
     // 6. Delete notifications
     const notificationsReceived = await ctx.db
       .query('notifications')
-      .withIndex('byUser', (q) => q.eq('userId', user._id))
+      .withIndex('byUser', (q) => q.eq('userId', userId))
       .collect()
     for (const notification of notificationsReceived) {
       await ctx.db.delete(notification._id)
@@ -154,16 +159,15 @@ export const deleteAccount = mutation({
 
     const notificationsActed = await ctx.db
       .query('notifications')
-      .withIndex('byActor', (q) => q.eq('actorId', user._id))
+      .withIndex('byActor', (q) => q.eq('actorId', userId))
       .collect()
     for (const notification of notificationsActed) {
       await ctx.db.delete(notification._id)
     }
 
     // 7. Delete the user
-    await ctx.db.delete(user._id)
-  },
-})
+    await ctx.db.delete(userId)
+}
 
 export const updateProfileData = mutation({
   args: {

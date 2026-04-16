@@ -25,7 +25,6 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const SettingsPage = () => {
-  const deleteAccount = useMutation(api.users.deleteAccount)
   const user = useQuery(api.users.current)
 
   const router = useRouter()
@@ -85,11 +84,9 @@ const SettingsPage = () => {
           style: 'destructive',
           onPress: async () => {
             try {
-              // 1. Delete all relational data from Convex
-              await deleteAccount()
               posthog.capture('account_deleted')
               posthog.reset()
-              // 2. Delete user from Better Auth (this triggers sign out and deletes the primary db user)
+              // 1. Delete user from Better Auth (this triggers sign out and deletes the primary db user via webhook)
               await authClient.deleteUser()
             } catch (error) {
               console.error(error)
