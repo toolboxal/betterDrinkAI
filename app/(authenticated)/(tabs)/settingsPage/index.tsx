@@ -6,16 +6,27 @@ import {
   checkHealthPermissions,
   requestHealthPermissions,
 } from '@/lib/healthService'
+import { posthog } from '@/lib/posthog'
 import Entypo from '@expo/vector-icons/Entypo'
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
 import { useFocusEffect } from '@react-navigation/native'
-import { useMutation } from 'convex/react'
+import { useMutation, useQuery } from 'convex/react'
+import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { useCallback, useState } from 'react'
-import { Alert, Linking, Pressable, StyleSheet, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Alert,
+  Linking,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const SettingsPage = () => {
   const deleteAccount = useMutation(api.users.deleteAccount)
+  const user = useQuery(api.users.current)
 
   const router = useRouter()
   const [isHealthConnected, setIsHealthConnected] = useState(false)
@@ -46,6 +57,7 @@ const SettingsPage = () => {
 
     if (trueStatus) {
       setIsHealthConnected(true)
+      posthog.capture('apple_health_connected')
       Alert.alert('Success', 'Apple Health connected successfully!')
     } else {
       Alert.alert(
@@ -73,10 +85,12 @@ const SettingsPage = () => {
           style: 'destructive',
           onPress: async () => {
             try {
-              // 1. Delete all data from Convex
+              // 1. Delete all relational data from Convex
               await deleteAccount()
-              // 2. Sign out since the account is gone
-              await authClient.signOut()
+              posthog.capture('account_deleted')
+              posthog.reset()
+              // 2. Delete user from Better Auth (this triggers sign out and deletes the primary db user)
+              await authClient.deleteUser()
             } catch (error) {
               console.error(error)
               Alert.alert(
@@ -93,7 +107,34 @@ const SettingsPage = () => {
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 20 }}>
       <Text style={styles.headerText}>Settings</Text>
-      {/* <Text style={styles.subHeader}>Account</Text> */}
+      {user ? (
+        <View style={styles.profileHeader}>
+          {user.image ? (
+            <Image
+              source={{ uri: user.image }}
+              style={styles.avatar}
+              contentFit="cover"
+            />
+          ) : (
+            <View
+              style={[
+                styles.avatar,
+                { alignItems: 'center', justifyContent: 'center' },
+              ]}
+            >
+              <FontAwesome6 name="user-large" size={24} color={gray[500]} />
+            </View>
+          )}
+          <View>
+            <Text style={styles.userName}>{user.username}</Text>
+            <Text style={styles.userEmail}>{user.name || ''}</Text>
+          </View>
+        </View>
+      ) : (
+        <View style={styles.profileHeader}>
+          <ActivityIndicator color="black" />
+        </View>
+      )}
       <View style={styles.container}>
         <Pressable
           style={styles.subContainer}
@@ -160,6 +201,8 @@ const SettingsPage = () => {
                 text: 'Logout',
                 onPress: async () => {
                   try {
+                    posthog.capture('user_logged_out')
+                    posthog.reset()
                     await authClient.signOut()
                   } catch (error) {
                     Alert.alert('Error', 'Failed to logout. Please try again.')
@@ -216,5 +259,30 @@ const styles = StyleSheet.create({
   contentText: {
     fontSize: 16,
     fontFamily: 'PlusJakartaSans_500Medium',
+  },
+  profileHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 15,
+    backgroundColor: 'white',
+    padding: 15,
+    borderRadius: 16,
+    marginVertical: 10,
+  },
+  avatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 30,
+    backgroundColor: gray[200],
+  },
+  userName: {
+    fontSize: 18,
+    fontFamily: 'PlusJakartaSans_700Bold',
+    color: 'black',
+  },
+  userEmail: {
+    fontSize: 14,
+    fontFamily: 'PlusJakartaSans_400Regular',
+    color: gray[500],
   },
 })

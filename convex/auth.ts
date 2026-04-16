@@ -117,6 +117,11 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
       expo(),
       convex({ authConfig }),
     ],
+    user: {
+      deleteUser: {
+        enabled: true,
+      },
+    },
   })
 }
 // Example function for getting the current user

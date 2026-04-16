@@ -1,6 +1,7 @@
 import Text from '@/components/CustomText'
 import { PulseLoader } from '@/components/PulseLoader'
 import { api } from '@/convex/_generated/api'
+import { posthog } from '@/lib/posthog'
 import { useMutation, useQuery } from 'convex/react'
 import { useRouter } from 'expo-router'
 import * as SecureStore from 'expo-secure-store'
@@ -51,6 +52,19 @@ const OnboardingProcessing = () => {
         // 3. Call mutation
         await updateOnboarding({
           data: onboardingData,
+        })
+
+        // Identify the user and track onboarding completion
+        posthog.identify(user._id, {
+          $set: {
+            name: user.name,
+            username: user.username,
+          },
+          $set_once: { onboarding_completed_at: new Date().toISOString() },
+        })
+        posthog.capture('onboarding_completed', {
+          goal: onboardingData.goal,
+          focus: onboardingData.focus,
         })
 
         // 4. Clear storage and redirect

@@ -1,17 +1,18 @@
+import Text from '@/components/CustomText'
 import { PulseLoader } from '@/components/PulseLoader'
 import { useSubscription } from '@/components/SubscriptionProvider'
 import { blue, gray, green, primary, red } from '@/constants/colors'
 import { api } from '@/convex/_generated/api'
 import { fetchStepCount, requestHealthPermissions } from '@/lib/healthService'
+import { posthog } from '@/lib/posthog'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
-import { useAction, useQuery, useConvexAuth } from 'convex/react'
+import { useAction, useConvexAuth, useQuery } from 'convex/react'
 import { Image } from 'expo-image'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useRouter } from 'expo-router'
 import { useEffect, useRef, useState } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
-import Text from '@/components/CustomText'
 import Animated, { FadeIn, FadeInDown, FadeOut } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -131,6 +132,7 @@ const HomePage = () => {
         >
           <Pressable
             onPress={() => {
+              posthog.capture('go_pro_tapped', { source: 'dashboard' })
               router.push('/(authenticated)/paywallPage')
             }}
             style={{ paddingHorizontal: 30, paddingVertical: 15 }}
@@ -188,15 +190,15 @@ const HomePage = () => {
           >
             <Image
               source={require('@/assets/images/bubbles_bottle.svg')}
-              style={{ width: 20, height: 20 }}
+              style={{ width: 22, height: 22 }}
               contentFit="contain"
             />
             <Text
               style={{
-                fontFamily: 'PlusJakartaSans_200ExtraLight',
+                fontFamily: 'PlusJakartaSans_300Light',
                 fontSize: 24,
-                letterSpacing: -2,
-                marginLeft: -4,
+                letterSpacing: -1.5,
+                marginLeft: -3,
               }}
             >
               Better Drink AI

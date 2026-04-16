@@ -2,19 +2,23 @@ import { v } from 'convex/values'
 import { internal } from './_generated/api'
 import { mutation, query, QueryCtx } from './_generated/server'
 
-export async function getCurrentUserOrThrow(ctx: QueryCtx) {
+export async function getCurrentUser(ctx: QueryCtx) {
   const identity = await ctx.auth.getUserIdentity()
   if (!identity) {
-    throw new Error('Not authenticated')
+    return null
   }
-  const user = await ctx.db
+  return await ctx.db
     .query('users')
     .withIndex('by_better_auth_id', (q) =>
       q.eq('betterAuthId', identity.subject),
     )
     .unique()
+}
+
+export async function getCurrentUserOrThrow(ctx: QueryCtx) {
+  const user = await getCurrentUser(ctx)
   if (!user) {
-    throw new Error('User not found')
+    throw new Error('Not authenticated')
   }
   return user
 }
@@ -78,7 +82,7 @@ export const checkUsernameAvailability = query({
 export const current = query({
   args: {},
   handler: async (ctx) => {
-    return await getCurrentUserOrThrow(ctx)
+    return await getCurrentUser(ctx)
   },
 })
 
@@ -164,14 +168,13 @@ export const deleteAccount = mutation({
 export const updateProfileData = mutation({
   args: {
     data: v.object({
-      firstName: v.optional(v.string()),
-      lastName: v.optional(v.string()),
+      name: v.optional(v.string()),
       birthDate: v.optional(v.number()),
       gender: v.optional(v.string()),
       height: v.optional(v.number()),
       weight: v.optional(v.number()),
       username: v.optional(v.string()),
-      imageUrl: v.optional(v.string()),
+      image: v.optional(v.string()),
       focus: v.optional(v.string()),
       motivation: v.optional(v.string()),
       storageId: v.optional(v.id('_storage')),
@@ -203,7 +206,7 @@ export const updateProfileData = mutation({
     if (storageId) {
       const url = await ctx.storage.getUrl(storageId)
       if (url) {
-        updates.imageUrl = url
+        updates.image = url
       }
     }
 

@@ -1,5 +1,6 @@
 import { gray, primary } from '@/constants/colors'
 import { api } from '@/convex/_generated/api'
+import { posthog } from '@/lib/posthog'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { useQuery } from 'convex/react'
 import { useRouter } from 'expo-router'
@@ -34,7 +35,14 @@ const CommunityPage = () => {
 
   const renderRoom = ({ item }: { item: any }) => (
     <Pressable
-      onPress={() => router.push(`/(authenticated)/room/${item._id}` as any)}
+      onPress={() => {
+        posthog.capture('community_room_entered', {
+          room_id: item._id,
+          room_name: item.name,
+          is_joined: item.isJoined,
+        })
+        router.push(`/(authenticated)/room/${item._id}` as any)
+      }}
       style={({ pressed }) => [styles.roomCard, pressed && styles.pressedCard]}
     >
       <View

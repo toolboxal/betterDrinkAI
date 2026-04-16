@@ -3,6 +3,7 @@ import { gray, primary } from '@/constants/colors'
 import { api } from '@/convex/_generated/api'
 import { Id } from '@/convex/_generated/dataModel'
 import { authClient } from '@/lib/auth-client'
+import { posthog } from '@/lib/posthog'
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import Feather from '@expo/vector-icons/Feather'
@@ -51,6 +52,10 @@ const DrinkDetailsPage = () => {
       })
 
       await Sharing.shareAsync(uri)
+      posthog.capture('drink_shared', {
+        drink_name: parsedDrinkData?.name,
+        health_score: parsedDrinkData?.healthScore,
+      })
     } catch (error) {
       console.error('Share error:', error)
       Alert.alert('Error', 'Failed to share the drink report')
@@ -66,6 +71,10 @@ const DrinkDetailsPage = () => {
     setIsDeleting(true)
     try {
       await deleteDrink({ drinkId: drinkId as Id<'drinks'> })
+      posthog.capture('drink_deleted', {
+        drink_name: parsedDrinkData?.name,
+        health_score: parsedDrinkData?.healthScore,
+      })
       Alert.alert('Success', 'Drink deleted successfully')
       router.back()
     } catch (error: any) {

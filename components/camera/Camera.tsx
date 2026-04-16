@@ -3,6 +3,7 @@ import { PulseLoader } from '@/components/PulseLoader'
 import { gray, primary } from '@/constants/colors'
 import { Doc } from '@/convex/_generated/dataModel'
 import { authClient } from '@/lib/auth-client'
+import { posthog } from '@/lib/posthog'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import Ionicons from '@expo/vector-icons/Ionicons'
@@ -66,10 +67,16 @@ const Camera = () => {
 
       const responseDrinkData = await processDrinkImage({ imageBase64, localDayKey })
       console.log('AI Response (Drink Data):', responseDrinkData)
+      posthog.capture('drink_logged', {
+        drink_name: responseDrinkData.name,
+        health_score: responseDrinkData.healthScore,
+        drink_type: responseDrinkData.drinkType,
+        calories: responseDrinkData.calories,
+      })
       setDrinkData(responseDrinkData)
     } catch (e: any) {
       console.error('catch block error:', e)
-      
+
       if (e instanceof ConvexError) {
         const errorData = (e as any).data
         if (errorData?.error === 'Unauthorized') {
@@ -85,15 +92,28 @@ const Camera = () => {
           errorData?.error === 'low_confidence' ||
           errorData?.error === 'unclear_image'
         ) {
+          posthog.capture('drink_scan_failed', {
+            error_type: errorData.error,
+            reason: errorData.reason,
+            confidence: errorData.confidence,
+          })
           setError(errorData)
           setInvalidCount((prev) => prev + 1)
         } else {
+          posthog.capture('drink_scan_failed', {
+            error_type: errorData?.error || 'unknown',
+            message: errorData?.message || e.message,
+          })
           setError({
             error: errorData?.error || 'Error',
             message: errorData?.message || e.message
           })
         }
       } else {
+        posthog.capture('drink_scan_failed', {
+          error_type: 'api_error',
+          message: e.message || 'API request failed',
+        })
         setError({
           error: 'Error',
           message: e.message || 'API request failed'
@@ -112,6 +132,7 @@ const Camera = () => {
       quality: 1,
     })
     if (!result.canceled) {
+      posthog.capture('drink_scan_initiated', { source: 'library' })
       setImage(result.assets[0].uri)
       const imageBase64 = await new File(result.assets[0].uri).base64()
       setIsLoading(true)
@@ -122,6 +143,7 @@ const Camera = () => {
 
   const takePicture = async () => {
     if (cameraRef.current && !isLoading) {
+      posthog.capture('drink_scan_initiated', { source: 'camera' })
       setIsLoading(true)
       setError(null)
 

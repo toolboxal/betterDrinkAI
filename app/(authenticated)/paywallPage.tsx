@@ -1,4 +1,5 @@
 import { gray, primary } from '@/constants/colors'
+import { posthog } from '@/lib/posthog'
 import Entypo from '@expo/vector-icons/Entypo'
 import { useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
@@ -49,11 +50,23 @@ const PaywallPage = () => {
         selected === 'monthly' ? offering.monthly : offering.annual
       if (packageToBuy) {
         await Purchases.purchasePackage(packageToBuy)
-        router.back() // or router.replace to success screen
+        posthog.capture('subscription_purchased', {
+          plan: selected,
+          price: packageToBuy.product.price,
+          price_string: packageToBuy.product.priceString,
+          currency: packageToBuy.product.currencyCode,
+        })
+        router.back()
       }
     } catch (e: any) {
-      if (!e.userCancelled) {
+      if (e.userCancelled) {
+        posthog.capture('subscription_purchase_cancelled', { plan: selected })
+      } else {
         console.error('Error purchasing', e)
+        posthog.capture('subscription_purchase_failed', {
+          plan: selected,
+          error_message: e.message,
+        })
         Alert.alert('Purchase Error', e.message)
       }
     }
@@ -65,6 +78,7 @@ const PaywallPage = () => {
       const customerInfo = await Purchases.restorePurchases()
       // Use the same entitlement check that you use in SubscriptionProvider
       if (typeof customerInfo.entitlements.active['pro'] !== 'undefined') {
+        posthog.capture('subscription_restored')
         Alert.alert('Success', 'Your purchases have been restored!')
         router.back()
       } else {
@@ -123,7 +137,10 @@ const PaywallPage = () => {
               borderColor: selected === 'monthly' ? primary[100] : primary[950],
             },
           ]}
-          onPress={() => setSelected('monthly')}
+          onPress={() => {
+            posthog.capture('subscription_plan_selected', { plan: 'monthly' })
+            setSelected('monthly')
+          }}
         >
           <Text
             style={[
@@ -171,7 +188,10 @@ const PaywallPage = () => {
               position: 'relative',
             },
           ]}
-          onPress={() => setSelected('yearly')}
+          onPress={() => {
+            posthog.capture('subscription_plan_selected', { plan: 'yearly' })
+            setSelected('yearly')
+          }}
         >
           <View style={styles.saveContainer}>
             <Text

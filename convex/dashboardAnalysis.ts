@@ -6,7 +6,8 @@ import { Doc } from './_generated/dataModel'
 import { action, internalMutation, query } from './_generated/server'
 import { createGeminiClient } from './gemini'
 import { createOpenAIClient } from './openai'
-import { getCurrentUserOrThrow } from './users'
+import { getCurrentUser, getCurrentUserOrThrow } from './users'
+import { ConvexError } from 'convex/values'
 
 export type DailyAnalysis = z.infer<typeof dailyAnalysisSchema>
 
@@ -82,7 +83,8 @@ export const getDailyInsight = query({
   ): Promise<
     (Doc<'daily_insights'> & { parsedInsight?: DailyAnalysis }) | null
   > => {
-    const userRecord = await getCurrentUserOrThrow(ctx)
+    const userRecord = await getCurrentUser(ctx)
+    if (!userRecord) return null
 
     const cachedInsight = await ctx.db
       .query('daily_insights')
@@ -171,7 +173,7 @@ export const generateDailyInsight = action({
     }
 
     const user = await ctx.runQuery(api.users.current)
-    if (!user) throw new Error('User not found')
+    if (!user) throw new ConvexError('User not found')
 
     const userName = user.username || 'Friend'
     const userFocus = (user.focus || 'Stay Healthy').replace(/_/g, ' ')
@@ -419,6 +421,7 @@ Return ONLY valid JSON.`
               type: 'json_schema',
               json_schema: {
                 name: 'DailyAnalysisResponse',
+                strict: true,
                 schema: baseSchema as Record<string, any>,
               },
             },
@@ -429,9 +432,16 @@ Return ONLY valid JSON.`
         const fallbackContent = completion.choices[0]?.message?.content
         if (!fallbackContent) throw new Error('OpenAI generation failed')
 
-        const fallbackResult = dailyAnalysisSchema.parse(
-          JSON.parse(fallbackContent),
-        )
+        let fallbackResult
+        try {
+          fallbackResult = dailyAnalysisSchema.parse(
+            JSON.parse(fallbackContent),
+          )
+        } catch (zodError) {
+          console.error('OpenAI Schema Validation Failed:', zodError)
+          console.log('Raw OpenAI Output:', fallbackContent)
+          throw zodError
+        }
 
         console.log(
           '✅ OpenAI successfully generated the daily insight instead of Gemini.',

@@ -1,23 +1,13 @@
 import { authClient } from '@/lib/auth-client'
+import { posthog } from '@/lib/posthog'
 import { ConvexBetterAuthProvider } from '@convex-dev/better-auth/react'
 import { ConvexProvider, ConvexReactClient, useConvexAuth } from 'convex/react'
-import { Stack, useRouter, useSegments } from 'expo-router'
-import { StrictMode, useEffect } from 'react'
+import { Stack, useGlobalSearchParams, usePathname, useRouter, useSegments } from 'expo-router'
+import { PostHogProvider } from 'posthog-react-native'
+import { StrictMode, useEffect, useRef } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
 import { SubscriptionProvider } from '@/components/SubscriptionProvider'
 import Purchases, { LOG_LEVEL } from 'react-native-purchases'
-// import {
-//   Inter_100Thin,
-//   Inter_200ExtraLight,
-//   Inter_300Light,
-//   Inter_400Regular,
-//   Inter_500Medium,
-//   Inter_600SemiBold,
-//   Inter_700Bold,
-//   Inter_800ExtraBold,
-//   Inter_900Black,
-//   useFonts,
-// } from '@expo-google-fonts/inter'
 import {
   PlusJakartaSans_300Light,
   PlusJakartaSans_300Light_Italic,
@@ -58,6 +48,20 @@ function InitialLayout() {
   const { isAuthenticated, isLoading: isAuthLoading } = useConvexAuth()
   const segments = useSegments()
   const router = useRouter()
+  const pathname = usePathname()
+  const params = useGlobalSearchParams()
+  const previousPathname = useRef<string | undefined>(undefined)
+
+  // Manual screen tracking for Expo Router
+  useEffect(() => {
+    if (previousPathname.current !== pathname) {
+      posthog.screen(pathname, {
+        previous_screen: previousPathname.current ?? null,
+        ...params,
+      })
+      previousPathname.current = pathname
+    }
+  }, [pathname, params])
 
   const [loaded, error] = useFonts({
     PlusJakartaSans_300Light,
@@ -143,13 +147,22 @@ function InitialLayout() {
 export default function AuthLayout() {
   return (
     <StrictMode>
-      <ConvexProvider client={convex}>
-        <ConvexBetterAuthProvider client={convex} authClient={authClient}>
-          <SubscriptionProvider>
-            <InitialLayout />
-          </SubscriptionProvider>
-        </ConvexBetterAuthProvider>
-      </ConvexProvider>
+      <PostHogProvider
+        client={posthog}
+        autocapture={{
+          captureScreens: false,
+          captureTouches: true,
+          propsToCapture: ['testID'],
+        }}
+      >
+        <ConvexProvider client={convex}>
+          <ConvexBetterAuthProvider client={convex} authClient={authClient}>
+            <SubscriptionProvider>
+              <InitialLayout />
+            </SubscriptionProvider>
+          </ConvexBetterAuthProvider>
+        </ConvexProvider>
+      </PostHogProvider>
     </StrictMode>
   )
 }

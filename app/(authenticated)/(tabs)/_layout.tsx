@@ -1,18 +1,16 @@
 import AddDrinkModal from '@/components/dashboard/AddDrinkModal'
 import AddWaterModal from '@/components/dashboard/AddWaterModal'
 import { primary } from '@/constants/colors'
-import Entypo from '@expo/vector-icons/Entypo'
 import Feather from '@expo/vector-icons/Feather'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { BlurView } from 'expo-blur'
-import { Tabs, useRouter } from 'expo-router'
+import { Tabs } from 'expo-router'
 import React, { useState } from 'react'
 import { Dimensions } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const TabsLayout = () => {
-  const router = useRouter()
   const { bottom } = useSafeAreaInsets()
   const { width } = Dimensions.get('window')
   const [showDrinkOptionsModal, setShowDrinkOptionsModal] = useState(false)

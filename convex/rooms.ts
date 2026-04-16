@@ -1,13 +1,19 @@
 import { paginationOptsValidator } from 'convex/server'
 import { v } from 'convex/values'
 import { mutation, query } from './_generated/server'
-import { getCurrentUserOrThrow } from './users'
+import { getCurrentUser, getCurrentUserOrThrow } from './users'
 
 // List all available goal rooms
 export const listRooms = query({
   args: {},
   handler: async (ctx) => {
-    const user = await getCurrentUserOrThrow(ctx)
+    const user = await getCurrentUser(ctx)
+    if (!user) {
+      return {
+        joined: [],
+        available: [],
+      }
+    }
     const allRooms = await ctx.db.query('rooms').collect()
 
     const memberships = await ctx.db
@@ -104,7 +110,7 @@ export const getTopShelf = query({
 export const getRoomActivityFeed = query({
   args: { roomId: v.id('rooms'), limit: v.optional(v.number()) },
   handler: async (ctx, args) => {
-    const me = await getCurrentUserOrThrow(ctx)
+    const me = await getCurrentUser(ctx)
     const limit = args.limit ?? 20
     const activities = await ctx.db
       .query('room_activities')
@@ -146,7 +152,7 @@ export const getMembersDirectory = query({
     paginationOpts: paginationOptsValidator,
   },
   handler: async (ctx, args) => {
-    const me = await getCurrentUserOrThrow(ctx)
+    const me = await getCurrentUser(ctx)
 
     const membersPage = await ctx.db
       .query('room_members')
@@ -322,7 +328,8 @@ export const reactToActivity = mutation({
 export const getMyNotifications = query({
   args: {},
   handler: async (ctx) => {
-    const user = await getCurrentUserOrThrow(ctx)
+    const user = await getCurrentUser(ctx)
+    if (!user) return []
 
     const notifications = await ctx.db
       .query('notifications')
@@ -447,7 +454,8 @@ export const syncDrinkUpdate = internalMutation({
 export const getUnreadNotificationCount = query({
   args: {},
   handler: async (ctx) => {
-    const user = await getCurrentUserOrThrow(ctx)
+    const user = await getCurrentUser(ctx)
+    if (!user) return 0
 
     const unreadNotifications = await ctx.db
       .query('notifications')

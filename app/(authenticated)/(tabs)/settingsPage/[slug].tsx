@@ -45,11 +45,8 @@ const motivationOptions = [
 
 // 1. Define the schema based on your Convex 'users' table
 const profileSchema = z.object({
-  username: z
-    .string()
-    .min(3, 'Username must be at least 3 characters')
-    .optional(),
-  name: z.string().min(3, 'Name must be at least 3 characters'),
+  username: z.string().min(3, 'Username must be at least 3 characters'),
+  name: z.string(),
   height: z.coerce.number(),
   weight: z.coerce.number(),
   gender: z.string(),
@@ -71,14 +68,14 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
 
-  const { control, handleSubmit, setValue, watch } = useForm({
+  const { control, handleSubmit, setValue, watch } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      username: user.username,
-      name: user.name,
+      username: user.username ?? '',
+      name: user.name ?? '',
       height: user.height ?? 0,
       weight: user.weight ?? 0,
-      gender: gender,
+      gender: gender ?? '',
       birthDate: birthDate,
     },
   })
@@ -175,9 +172,8 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
   const watchedFirstName = watch('name') || ''
   const isFormInvalid =
     watchedUsername.length < 3 ||
-    watchedFirstName.trim().length === 0 ||
-    (debouncedUsername === watchedUsername.toLowerCase().trim() &&
-      isUsernameAvailable === false)
+    debouncedUsername !== watchedUsername.toLowerCase().trim() ||
+    isUsernameAvailable !== true
 
   return (
     <ScrollView
@@ -252,8 +248,7 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
             </View>
 
             {/* Real-time Validation UI */}
-            {watchedUsername !== user.username &&
-              (watchedUsername.length >= 4 || watchedUsername.length > 0) && (
+            {watchedUsername !== user.username && watchedUsername.length > 0 && (
                 <Text
                   style={{
                     fontSize: 11,
@@ -261,7 +256,7 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
                     marginLeft: 15,
                     marginTop: 2,
                     color:
-                      watchedUsername.length < 4
+                      watchedUsername.length < 3
                         ? '#FF4B4B'
                         : debouncedUsername !==
                               watchedUsername.toLowerCase().trim() ||
@@ -272,8 +267,8 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
                             : '#FF4B4B',
                   }}
                 >
-                  {watchedUsername.length < 4
-                    ? 'Username must be at least 4 characters'
+                  {watchedUsername.length < 3
+                    ? 'Username must be at least 3 characters'
                     : debouncedUsername !==
                           watchedUsername.toLowerCase().trim() ||
                         isUsernameAvailable === undefined
@@ -300,19 +295,7 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
                 style={styles.textInputStyle}
               />
             </View>
-            {watchedFirstName.trim().length === 0 && (
-              <Text
-                style={{
-                  fontSize: 11,
-                  fontFamily: 'PlusJakartaSans_500Medium',
-                  marginLeft: 15,
-                  marginTop: 2,
-                  color: '#FF4B4B',
-                }}
-              >
-                Name cannot be blank
-              </Text>
-            )}
+
           </View>
         )}
         control={control}

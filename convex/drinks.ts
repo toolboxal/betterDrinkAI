@@ -1,7 +1,7 @@
 import { v } from 'convex/values'
 import { internal } from './_generated/api'
 import { internalQuery, mutation, query } from './_generated/server'
-import { getCurrentUserOrThrow } from './users'
+import { getCurrentUser, getCurrentUserOrThrow } from './users'
 
 export const createNewDrink = mutation({
   args: {
@@ -186,7 +186,8 @@ export const getDrink = query({
     drinkId: v.id('drinks'),
   },
   handler: async (ctx, args) => {
-    const user = await getCurrentUserOrThrow(ctx)
+    const user = await getCurrentUser(ctx)
+    if (!user) return null
 
     const drink = await ctx.db.get(args.drinkId)
     if (!drink) {
@@ -212,7 +213,8 @@ export const getDrink = query({
 export const getAllDrinks = query({
   args: {},
   handler: async (ctx) => {
-    const user = await getCurrentUserOrThrow(ctx)
+    const user = await getCurrentUser(ctx)
+    if (!user) return []
 
     // Query all drinks for this user using the byUserId index
     const drinks = await ctx.db
@@ -243,7 +245,8 @@ export const getDrinksByDay = query({
     dayKey: v.string(), // "YYYY-MM-DD"
   },
   handler: async (ctx, args) => {
-    const user = await getCurrentUserOrThrow(ctx)
+    const user = await getCurrentUser(ctx)
+    if (!user) return []
 
     // Query drinks for this user and specific day using the byUserAndDay index
     const drinks = await ctx.db
@@ -300,7 +303,8 @@ export const getDrinksByDateRangeInternal = internalQuery({
 export const getRecentHistory = query({
   args: {},
   handler: async (ctx) => {
-    const user = await getCurrentUserOrThrow(ctx)
+    const user = await getCurrentUser(ctx)
+    if (!user) return []
 
     return await ctx.db
       .query('drinks')

@@ -5,6 +5,7 @@ import { gray, primary } from '@/constants/colors'
 import { api } from '@/convex/_generated/api'
 import { Doc, Id } from '@/convex/_generated/dataModel'
 import { syncCaffeineToHealth, syncSugarToHealth } from '@/lib/healthService'
+import { posthog } from '@/lib/posthog'
 import { Ionicons } from '@expo/vector-icons'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { useAction, useMutation, useQuery } from 'convex/react'
@@ -205,6 +206,12 @@ const DrinkEditPage = () => {
       if (data.caffeine && data.caffeine > 0) {
         await syncCaffeineToHealth(data.caffeine)
       }
+
+      posthog.capture('drink_updated', {
+        drink_name: data.name,
+        drink_type: data.drinkType,
+        new_health_score: analysis.healthScore,
+      })
 
       router.back()
     } catch (error) {

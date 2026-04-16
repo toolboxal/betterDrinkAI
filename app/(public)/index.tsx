@@ -6,11 +6,13 @@ import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { usePostHog } from 'posthog-react-native'
 
 const LandingPage = () => {
   const [showModal, setShowModal] = useState(false)
   const router = useRouter()
   const { top, bottom } = useSafeAreaInsets()
+  const posthog = usePostHog()
   return (
     <View
       style={{
@@ -61,18 +63,22 @@ const LandingPage = () => {
           }}
           contentFit="contain"
         />
-        <Text style={styles.subTxt}>
-          {` Insights powered by \nGoogle Gemini AI.`}
-        </Text>
+        <Text style={styles.subTxt}>Insights powered by AI.</Text>
 
         <Pressable
           style={[styles.btnContainer, { borderColor: primary[300] }]}
-          onPress={() => router.navigate('./onboardingPage')}
+          onPress={() => {
+            posthog.capture('get_started_tapped')
+            router.navigate('./onboardingPage')
+          }}
         >
           <Text style={styles.btnText}>Get Started</Text>
         </Pressable>
         <Pressable
-          onPress={() => setShowModal(true)}
+          onPress={() => {
+            posthog.capture('sign_in_tapped')
+            setShowModal(true)
+          }}
           style={[
             styles.btnContainer,
             { borderColor: gray[200], backgroundColor: 'white' },
@@ -153,7 +159,7 @@ const styles = StyleSheet.create({
     fontFamily: 'PlusJakartaSans_300Light',
     textAlign: 'center',
     color: gray[500],
-    marginVertical: 10,
+    marginVertical: 20,
     lineHeight: 30,
   },
   footerTxt: {
