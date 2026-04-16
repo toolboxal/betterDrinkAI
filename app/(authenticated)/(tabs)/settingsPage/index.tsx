@@ -10,7 +10,7 @@ import { posthog } from '@/lib/posthog'
 import Entypo from '@expo/vector-icons/Entypo'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
 import { useFocusEffect } from '@react-navigation/native'
-import { useMutation, useQuery } from 'convex/react'
+import { useQuery } from 'convex/react'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { useCallback, useState } from 'react'
@@ -23,6 +23,7 @@ import {
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Purchases from 'react-native-purchases'
 
 const SettingsPage = () => {
   const user = useQuery(api.users.current)
@@ -76,7 +77,7 @@ const SettingsPage = () => {
   const handleDeleteAccount = () => {
     Alert.alert(
       'Delete Account',
-      'Are you absolutely sure? This will permanently delete all your drinks, history, and records. This action cannot be undone.',
+      'Are you absolutely sure? This will permanently delete all your drinks, history, and records. NOTE: Un-installing the app or deleting your account does NOT cancel any active subscriptions. You must manage them in your Apple Settings.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -86,6 +87,14 @@ const SettingsPage = () => {
             try {
               posthog.capture('account_deleted')
               posthog.reset()
+              try {
+                const isAnonymous = await Purchases.isAnonymous()
+                if (!isAnonymous) {
+                  await Purchases.logOut()
+                }
+              } catch (e) {
+                console.log('RevenueCat logout skipped', e)
+              }
               // 1. Delete user from Better Auth (this triggers sign out and deletes the primary db user via webhook)
               await authClient.deleteUser()
             } catch (error) {
@@ -200,6 +209,14 @@ const SettingsPage = () => {
                   try {
                     posthog.capture('user_logged_out')
                     posthog.reset()
+                    try {
+                      const isAnonymous = await Purchases.isAnonymous()
+                      if (!isAnonymous) {
+                        await Purchases.logOut()
+                      }
+                    } catch (e) {
+                      console.log('RevenueCat logout skipped:', e)
+                    }
                     await authClient.signOut()
                   } catch (error) {
                     Alert.alert('Error', 'Failed to logout. Please try again.')

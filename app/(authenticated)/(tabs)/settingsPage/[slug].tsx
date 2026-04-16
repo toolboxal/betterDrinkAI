@@ -68,17 +68,19 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
 
-  const { control, handleSubmit, setValue, watch } = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileSchema),
-    defaultValues: {
-      username: user.username ?? '',
-      name: user.name ?? '',
-      height: user.height ?? 0,
-      weight: user.weight ?? 0,
-      gender: gender ?? '',
-      birthDate: birthDate,
+  const { control, handleSubmit, setValue, watch } = useForm<ProfileFormValues>(
+    {
+      resolver: zodResolver(profileSchema),
+      defaultValues: {
+        username: user.username ?? '',
+        name: user.name ?? '',
+        height: user.height ?? 0,
+        weight: user.weight ?? 0,
+        gender: gender ?? '',
+        birthDate: birthDate,
+      },
     },
-  })
+  )
 
   // Watch the real-time username typed by the user
   const watchedUsername = watch('username') || ''
@@ -248,7 +250,8 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
             </View>
 
             {/* Real-time Validation UI */}
-            {watchedUsername !== user.username && watchedUsername.length > 0 && (
+            {watchedUsername !== user.username &&
+              watchedUsername.length > 0 && (
                 <Text
                   style={{
                     fontSize: 11,
@@ -295,7 +298,6 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
                 style={styles.textInputStyle}
               />
             </View>
-
           </View>
         )}
         control={control}
@@ -311,7 +313,7 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value?.toString() ?? '0'}
-                style={[styles.textInputStyle, { width: '10%' }]}
+                style={[styles.textInputStyle, { width: '12%' }]}
                 keyboardType="number-pad"
               />
               <Text style={[styles.textInputStyle, { color: gray[400] }]}>
@@ -333,7 +335,7 @@ const EditProfile = ({ user }: { user: Doc<'users'> }) => {
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value?.toString() ?? '0'}
-                style={[styles.textInputStyle, { width: '10%' }]}
+                style={[styles.textInputStyle, { width: '12%' }]}
                 keyboardType="number-pad"
               />
               <Text style={[styles.textInputStyle, { color: gray[400] }]}>

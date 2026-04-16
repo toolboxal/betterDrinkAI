@@ -376,7 +376,7 @@ const OnboardingPage = () => {
             console.error('Native Apple Auth Error:', error)
             return
           }
-          router.replace('/(authenticated)')
+          router.replace('/(authenticated)/onboardingProcessing')
         }
       } catch (e: any) {
         if (e.code !== 'ERR_REQUEST_CANCELED') {
@@ -389,13 +389,13 @@ const OnboardingPage = () => {
     // Default web-based OAuth for Google
     const { error } = await authClient.signIn.social({
       provider: typeofOauth,
-      callbackURL: 'betterdrinkai://(authenticated)',
+      callbackURL: 'betterdrinkai://(authenticated)/onboardingProcessing',
     })
     if (error) {
       console.error(`${typeofOauth} Auth Error:`, error)
       return
     }
-    router.replace('/(authenticated)')
+    router.replace('/(authenticated)/onboardingProcessing')
   }
 
   const renderHeader = (isFirst: boolean) => (

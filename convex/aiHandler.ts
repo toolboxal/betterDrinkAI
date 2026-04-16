@@ -89,8 +89,8 @@ import { createOpenAIClient } from './openai'
 
 // ...
 
-// Initialize the Google AI client
-const genAI = createGeminiClient()
+// Initialize the Google AI client lazily inside the handler so it doesn't break module evaluation on deployment
+// if environment variables are not set yet.
 
 export const aiHandler = action({
   args: {
@@ -98,6 +98,9 @@ export const aiHandler = action({
     localDayKey: v.optional(v.string()),
   },
   handler: async (ctx, args): Promise<any> => {
+    // Initialize clients here
+    const genAI = createGeminiClient()
+
     // Check if user is authenticated
     const identity = await ctx.auth.getUserIdentity()
 
