@@ -1,19 +1,17 @@
+import { SubscriptionProvider } from '@/components/SubscriptionProvider'
 import { authClient } from '@/lib/auth-client'
 import { posthog } from '@/lib/posthog'
 import { ConvexBetterAuthProvider } from '@convex-dev/better-auth/react'
-import { ConvexProvider, ConvexReactClient, useConvexAuth } from 'convex/react'
 import {
-  Stack,
-  useGlobalSearchParams,
-  usePathname,
-  useRouter,
-  useSegments,
-} from 'expo-router'
-import { PostHogProvider } from 'posthog-react-native'
-import { StrictMode, useEffect, useRef } from 'react'
-import * as SplashScreen from 'expo-splash-screen'
-import { SubscriptionProvider } from '@/components/SubscriptionProvider'
-import Purchases, { LOG_LEVEL } from 'react-native-purchases'
+  Merriweather_300Light,
+  Merriweather_300Light_Italic,
+  Merriweather_400Regular,
+  Merriweather_400Regular_Italic,
+  Merriweather_700Bold,
+  Merriweather_700Bold_Italic,
+  Merriweather_900Black,
+  Merriweather_900Black_Italic,
+} from '@expo-google-fonts/merriweather'
 import {
   PlusJakartaSans_300Light,
   PlusJakartaSans_300Light_Italic,
@@ -29,17 +27,24 @@ import {
   PlusJakartaSans_800ExtraBold_Italic,
   useFonts,
 } from '@expo-google-fonts/plus-jakarta-sans'
+import { ConvexProvider, ConvexReactClient, useConvexAuth } from 'convex/react'
 import {
-  Merriweather_300Light,
-  Merriweather_300Light_Italic,
-  Merriweather_400Regular,
-  Merriweather_400Regular_Italic,
-  Merriweather_700Bold,
-  Merriweather_700Bold_Italic,
-  Merriweather_900Black,
-  Merriweather_900Black_Italic,
-} from '@expo-google-fonts/merriweather'
+  Stack,
+  useGlobalSearchParams,
+  usePathname,
+  useRouter,
+  useSegments,
+} from 'expo-router'
+import * as SplashScreen from 'expo-splash-screen'
+import { PostHogProvider } from 'posthog-react-native'
+import { StrictMode, useEffect, useRef } from 'react'
 import { Platform } from 'react-native'
+import Purchases, { LOG_LEVEL } from 'react-native-purchases'
+
+SplashScreen.setOptions({
+  duration: 2000,
+  fade: true,
+})
 
 SplashScreen.preventAutoHideAsync()
 
@@ -115,10 +120,10 @@ function InitialLayout() {
   }, [isAuthenticated, isAuthLoading, segments, loaded])
 
   useEffect(() => {
-    if (loaded || error) {
+    if ((loaded || error) && !isAuthLoading) {
       SplashScreen.hideAsync()
     }
-  }, [loaded, error])
+  }, [loaded, error, isAuthLoading])
 
   useEffect(() => {
     const initRevenueCat = async () => {
