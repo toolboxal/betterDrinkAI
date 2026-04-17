@@ -17,6 +17,7 @@ export default defineSchema({
     weight: v.optional(v.number()),
     username: v.optional(v.string()),
     onboardingCompleted: v.optional(v.boolean()),
+    storageId: v.optional(v.id('_storage')),
   })
     .index('by_email', ['email'])
     .index('by_better_auth_id', ['betterAuthId'])

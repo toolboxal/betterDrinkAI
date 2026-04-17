@@ -105,6 +105,10 @@ function InitialLayout() {
       // Redirect authenticated users to the processing page first
       router.replace('/(authenticated)/onboardingProcessing')
     } else if (!isAuthenticated && inAuthGroup) {
+      // Exception: Allow users to stay on the onboardingProcessing screen while authentication is finalizing
+      if (segments[segments.length - 1] === 'onboardingProcessing') {
+        return
+      }
       // Redirect unauthenticated users to the login/public page
       router.replace('/(public)')
     }

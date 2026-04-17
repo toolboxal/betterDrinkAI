@@ -1240,7 +1240,7 @@ const OnboardingPage = () => {
       {/* FINAL STEP: PERSISTENT BOTTOM BAR */}
       {currentPage < 9 && (
         <View
-          style={[styles.bottomBar, { paddingBottom: Math.max(bottom, 20) }]}
+          style={[styles.bottomBar, { paddingBottom: bottom + 30 }]}
         >
           <View style={styles.bottomBarRow}>
             {currentPage !== 1 && (

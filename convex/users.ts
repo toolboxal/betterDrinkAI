@@ -165,7 +165,17 @@ export async function performUserCleanup(ctx: MutationCtx, userId: Id<'users'>) 
       await ctx.db.delete(notification._id)
     }
 
-    // 7. Delete the user
+    // 7. Delete the user's profile picture
+    const user = await ctx.db.get(userId)
+    if (user?.storageId) {
+      try {
+        await ctx.storage.delete(user.storageId)
+      } catch (e) {
+        console.error('Failed to delete user profile picture:', e)
+      }
+    }
+
+    // 8. Delete the user
     await ctx.db.delete(userId)
 }
 
@@ -204,13 +214,23 @@ export const updateProfileData = mutation({
       data.username = normalized
     }
 
-    const { storageId, ...otherData } = data
+    const { storageId: incomingStorageId, ...otherData } = data
     const updates: any = { ...otherData }
-
-    if (storageId) {
-      const url = await ctx.storage.getUrl(storageId)
+    
+    // If a new image is being set
+    if (incomingStorageId) {
+      const url = await ctx.storage.getUrl(incomingStorageId)
       if (url) {
+        // Delete the old profile picture if it exists
+        if (user.storageId && user.storageId !== incomingStorageId) {
+          try {
+            await ctx.storage.delete(user.storageId)
+          } catch (e) {
+            console.error('Failed to delete old profile picture:', e)
+          }
+        }
         updates.image = url
+        updates.storageId = incomingStorageId
       }
     }
 
