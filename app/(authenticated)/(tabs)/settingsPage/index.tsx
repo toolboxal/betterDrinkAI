@@ -236,6 +236,9 @@ const SettingsPage = () => {
           <Entypo name="chevron-small-right" size={24} color="red" />
         </Pressable>
       </View>
+      <Text style={styles.retentionDisclaimer}>
+        To protect your privacy, drink history is automatically cleared after 12 months.
+      </Text>
     </SafeAreaView>
   )
 }
@@ -298,5 +301,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'PlusJakartaSans_400Regular',
     color: gray[500],
+  },
+  retentionDisclaimer: {
+    paddingHorizontal: 20,
+    marginTop: -5,
+    fontSize: 12,
+    fontFamily: 'PlusJakartaSans_400Regular',
+    color: gray[500],
+    textAlign: 'center',
+    lineHeight: 18,
   },
 })

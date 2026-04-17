@@ -11,6 +11,8 @@
 import type * as aiHandler from "../aiHandler.js";
 import type * as auth from "../auth.js";
 import type * as authTriggers from "../authTriggers.js";
+import type * as cleanup from "../cleanup.js";
+import type * as crons from "../crons.js";
 import type * as dashboardAnalysis from "../dashboardAnalysis.js";
 import type * as drinkAnalysis from "../drinkAnalysis.js";
 import type * as drinks from "../drinks.js";
@@ -32,6 +34,8 @@ declare const fullApi: ApiFromModules<{
   aiHandler: typeof aiHandler;
   auth: typeof auth;
   authTriggers: typeof authTriggers;
+  cleanup: typeof cleanup;
+  crons: typeof crons;
   dashboardAnalysis: typeof dashboardAnalysis;
   drinkAnalysis: typeof drinkAnalysis;
   drinks: typeof drinks;
