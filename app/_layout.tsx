@@ -2,7 +2,13 @@ import { authClient } from '@/lib/auth-client'
 import { posthog } from '@/lib/posthog'
 import { ConvexBetterAuthProvider } from '@convex-dev/better-auth/react'
 import { ConvexProvider, ConvexReactClient, useConvexAuth } from 'convex/react'
-import { Stack, useGlobalSearchParams, usePathname, useRouter, useSegments } from 'expo-router'
+import {
+  Stack,
+  useGlobalSearchParams,
+  usePathname,
+  useRouter,
+  useSegments,
+} from 'expo-router'
 import { PostHogProvider } from 'posthog-react-native'
 import { StrictMode, useEffect, useRef } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
@@ -115,8 +121,8 @@ function InitialLayout() {
       try {
         Purchases.setLogLevel(LOG_LEVEL.WARN)
         // Platform-specific API keys
-        const iosApiKey = process.env.EXPO_PUBLIC_RC_TEST_KEY
-        const androidApiKey = process.env.EXPO_PUBLIC_RC_TEST_KEY
+        const iosApiKey = process.env.EXPO_PUBLIC_RC_IOS_API_KEY
+        const androidApiKey = process.env.EXPO_PUBLIC_RC_ANDROID_API_KEY
 
         if (iosApiKey) {
           if (Platform.OS === 'ios') {
@@ -132,7 +138,7 @@ function InitialLayout() {
     initRevenueCat()
   }, [])
 
-  if (!loaded && !error) {
+  if ((!loaded && !error) || isAuthLoading) {
     return null
   }
 

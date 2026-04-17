@@ -13,10 +13,13 @@ export default {
       bundleIdentifier: 'com.alvindevapps.betterdrinkai',
       appleTeamId: 'C2GV7H83QS',
       usesAppleSignIn: true,
+      infoPlist: {
+        ITSAppUsesNonExemptEncryption: false,
+      },
     },
     android: {
       adaptiveIcon: {
-        backgroundColor: '#E6F4FE',
+        backgroundColor: '#ffffffff',
         foregroundImage: './assets/images/android-icon-foreground.png',
         backgroundImage: './assets/images/android-icon-background.png',
         monochromeImage: './assets/images/android-icon-monochrome.png',
@@ -91,6 +94,9 @@ export default {
     extra: {
       posthogProjectToken: process.env.POSTHOG_PROJECT_TOKEN,
       posthogHost: process.env.POSTHOG_HOST,
+      eas: {
+        projectId: 'aafba71a-ee5d-490c-af11-6d22f4afdf82',
+      },
     },
   },
 }
