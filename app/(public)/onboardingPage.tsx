@@ -4,14 +4,13 @@ import { gray, primary } from '@/constants/colors'
 import { api } from '@/convex/_generated/api'
 import { authClient } from '@/lib/auth-client'
 import { fetchHealthData, requestHealthPermissions } from '@/lib/healthService'
-import * as SecureStore from 'expo-secure-store'
 import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { Picker } from '@react-native-picker/picker'
-import { useMutation, useQuery } from 'convex/react'
+import { useConvexAuth, useMutation, useQuery } from 'convex/react'
 import * as AppleAuthentication from 'expo-apple-authentication'
 import * as Linking from 'expo-linking'
 import { useRouter } from 'expo-router'
-import { useConvexAuth } from 'convex/react'
+import * as SecureStore from 'expo-secure-store'
 import { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
@@ -1239,9 +1238,7 @@ const OnboardingPage = () => {
 
       {/* FINAL STEP: PERSISTENT BOTTOM BAR */}
       {currentPage < 9 && (
-        <View
-          style={[styles.bottomBar, { paddingBottom: bottom + 30 }]}
-        >
+        <View style={[styles.bottomBar, { paddingBottom: bottom + 30 }]}>
           <View style={styles.bottomBarRow}>
             {currentPage !== 1 && (
               <Pressable
@@ -1358,7 +1355,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: 24,
     paddingTop: 20,
-    paddingBottom: 120,
+    paddingBottom: 150,
   },
   title: {
     fontSize: 30,

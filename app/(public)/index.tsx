@@ -4,7 +4,7 @@ import { gray, primary } from '@/constants/colors'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
-import { Pressable, StyleSheet, View } from 'react-native'
+import { Linking, Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { usePostHog } from 'posthog-react-native'
 
@@ -99,12 +99,23 @@ const LandingPage = () => {
                   styles.footerTxt,
                   { fontFamily: 'PlusJakartaSans_600SemiBold' },
                 ]}
+                onPress={() =>
+                  Linking.openURL(
+                    'https://www.freeprivacypolicy.com/live/ebd5607b-ef22-4f3d-8fe0-36768a6e4648',
+                  )
+                }
               >
-                Terms of Service
+                Terms of Use
               </Text>
             </Pressable>
             <Text style={styles.footerTxt}>and</Text>
-            <Pressable>
+            <Pressable
+              onPress={() =>
+                Linking.openURL(
+                  'https://www.freeprivacypolicy.com/live/1f425620-52fa-4cc9-b004-d4c951cc2718',
+                )
+              }
+            >
               <Text
                 style={[
                   styles.footerTxt,

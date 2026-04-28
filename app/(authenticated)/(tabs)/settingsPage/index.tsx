@@ -193,6 +193,28 @@ const SettingsPage = () => {
           <Text style={styles.contentText}>Change Goal or Focus</Text>
           <Entypo name="chevron-small-right" size={24} color="black" />
         </Pressable>
+        <Pressable
+          style={styles.subContainer}
+          onPress={() =>
+            Linking.openURL(
+              'https://www.freeprivacypolicy.com/live/ebd5607b-ef22-4f3d-8fe0-36768a6e4648',
+            )
+          }
+        >
+          <Text style={styles.contentText}>Terms of Use</Text>
+          <Entypo name="chevron-small-right" size={24} color="black" />
+        </Pressable>
+        <Pressable
+          style={styles.subContainer}
+          onPress={() =>
+            Linking.openURL(
+              'https://www.freeprivacypolicy.com/live/1f425620-52fa-4cc9-b004-d4c951cc2718',
+            )
+          }
+        >
+          <Text style={styles.contentText}>Private Policy</Text>
+          <Entypo name="chevron-small-right" size={24} color="black" />
+        </Pressable>
 
         <Pressable
           style={styles.subContainer}
@@ -237,7 +259,8 @@ const SettingsPage = () => {
         </Pressable>
       </View>
       <Text style={styles.retentionDisclaimer}>
-        To protect your privacy, drink history is automatically cleared after 12 months.
+        To protect your privacy, drink history is automatically cleared after 12
+        months.
       </Text>
     </SafeAreaView>
   )
